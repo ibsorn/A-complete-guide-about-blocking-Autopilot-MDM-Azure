@@ -1,40 +1,40 @@
-# Guía Completa para Bloquear Autopilot, MDM y Azure
+# Complete Guide to Blocking Autopilot, MDM, and Azure
 
-## Advertencia Previa: Sobre la persistencia de Autopilot
+## Preliminary Warning: On the Persistence of Autopilot
 
-Antes de empezar, es crucial entender que estos pasos por software evaden el bloqueo de forma muy robusta, pero no son permanentes ni infalibles. El sistema Autopilot de Microsoft asocia el equipo a la empresa mediante un identificador físico (Hardware Hash). Si el equipo se formatea o se restablece de fábrica en el futuro sin aplicar de nuevo esta guía, volverá a bloquearse.
+Before starting, it is crucial to understand that these software steps bypass the lock in a very robust way, but they are not permanent or infallible. Microsoft's Autopilot system associates the device with the company through a physical identifier (Hardware Hash). If the device is formatted or reset to factory settings in the future without reapplying this guide, it will lock again.
 
-Las únicas formas definitivas e infalibles de desvincular el equipo para siempre son:
+The only definitive and infallible ways to permanently unlink the device are:
 
-- **Modificar el Número de Serie / UUID en la BIOS**: Alterar el "ADN" del hardware para que cambie el Hardware Hash. Esto requiere herramientas de ingeniería muy específicas del fabricante (DMI Tools) y puede ser complicado y arriesgado. Siempre es recomendable investigar en foros técnicos si existe un método o software filtrado para tu modelo exacto.
+- **Modify the Serial Number / UUID in the BIOS**: Alter the hardware's "DNA" so that the Hardware Hash changes. This requires very specific manufacturer's engineering tools (DMI Tools) and can be complicated and risky. It is always recommended to research technical forums if there is a leaked method or software for your exact model.
 
-- **Cambiar la placa base entera**: Esto genera un hardware nuevo, pero suele ser económicamente inviable.
+- **Change the entire motherboard**: This generates new hardware, but it is usually economically unfeasible.
 
-Asumiendo que procedemos por la vía del software, esta es la guía definitiva.
+Assuming we proceed via software, this is the definitive guide.
 
-## Fase 1: Limpieza profunda de hardware (BIOS/UEFI)
+## Phase 1: Deep Hardware Cleanup (BIOS/UEFI)
 
-Antes de instalar Windows, debemos destruir cualquier rastro criptográfico o software de rastreo anclado en la placa base de la antigua empresa.
+Before installing Windows, we must destroy any cryptographic traces or tracking software anchored in the old company's motherboard.
 
-1. Enciende el equipo e ingresa a la BIOS/UEFI (normalmente presionando F2, F10, F12, Del o Esc repetidamente al arrancar).
+1. Turn on the device and enter the BIOS/UEFI (usually by pressing F2, F10, F12, Del, or Esc repeatedly when starting up).
 
-2. **Limpiar el módulo TPM**: Busca la pestaña de Security (Seguridad). Localiza la opción referente al chip TPM (puede llamarse TPM Security, Security Chip o Intel PTT/AMD fTPM). Selecciona la opción Clear TPM (Borrar TPM) o Reset to Factory. Esto eliminará cualquier certificado o clave corporativa guardada físicamente en el chip.
+2. **Clean the TPM module**: Look for the Security tab. Locate the option related to the TPM chip (it may be called TPM Security, Security Chip, or Intel PTT/AMD fTPM). Select the Clear TPM (Clear TPM) or Reset to Factory option. This will delete any corporate certificates or keys physically stored in the chip.
 
-3. **Desactivar el Absolute Persistence Module (Computrace)**: En esa misma pestaña de Seguridad, busca si el equipo cuenta con opciones llamadas Absolute Persistence, Computrace o Lojack. Si lo tiene, cambia su estado a Permanently Disable (Desactivar permanentemente). Guarda los cambios y sal de la BIOS.
+3. **Disable the Absolute Persistence Module (Computrace)**: In the same Security tab, check if the device has options called Absolute Persistence, Computrace, or Lojack. If it does, change its status to Permanently Disable. Save the changes and exit the BIOS.
 
-## Fase 2: Preparación del USB (Forzar Windows 11 Home)
+## Phase 2: USB Preparation (Force Windows 11 Home)
 
-Nota: Instalar la versión Windows 11 Home es opcional pero altamente recomendado. La versión Home carece de los componentes internos necesarios para unirse a un dominio de Azure o ejecutar Autopilot. Al forzar esta versión, añadimos una barrera estructural contra la antigua empresa.
+Note: Installing the Windows 11 Home version is optional but highly recommended. The Home version lacks the internal components necessary to join an Azure domain or run Autopilot. By forcing this version, we add a structural barrier against the old company.
 
-Como los portátiles corporativos llevan la licencia Pro grabada en la placa base, el instalador la leerá automáticamente. Para evitarlo:
+Since corporate laptops have the Pro license engraved on the motherboard, the installer will read it automatically. To prevent this:
 
-1. Crea un USB con la imagen oficial de Windows 11 usando la herramienta de Microsoft.
+1. Create a USB with the official Windows 11 image using Microsoft's tool.
 
-2. Conecta el USB en tu equipo actual y abre la carpeta llamada sources.
+2. Connect the USB to your current device and open the folder called sources.
 
-3. Haz clic derecho en un espacio vacío > Nuevo > Documento de texto.
+3. Right-click in an empty space > New > Text Document.
 
-4. Pega exactamente las siguientes líneas:
+4. Paste exactly the following lines:
 
    ```
    [EditionID]
@@ -45,95 +45,95 @@ Como los portátiles corporativos llevan la licencia Pro grabada en la placa bas
    0
    ```
 
-5. Selecciona Archivo > Guardar como. En la opción "Tipo", elige Todos los archivos (.). Nombra el archivo exactamente como ei.cfg y guárdalo.
+5. Select File > Save As. In the "Type" option, choose All files (.). Name the file exactly as ei.cfg and save it.
 
-## Fase 3: Instalación Limpia y Salto de Red (BypassNRO)
+## Phase 3: Clean Installation and Network Bypass (BypassNRO)
 
-1. Desconecta el portátil físicamente de internet (sin cable Ethernet y, si es necesario, apaga tu router Wi-Fi temporalmente).
+1. Physically disconnect the laptop from the internet (no Ethernet cable, and if necessary, temporarily turn off your Wi-Fi router).
 
-2. Arranca el equipo desde el USB e inicia la instalación.
+2. Boot the device from the USB and start the installation.
 
-3. Al llegar a la pantalla "¿Dónde quieres instalar Windows?", selecciona una por una todas las particiones existentes y pulsa Eliminar hasta que el disco entero sea "Espacio sin asignar". Selecciona ese espacio y pulsa Siguiente.
+3. When you reach the screen "Where do you want to install Windows?", select each existing partition one by one and press Delete until the entire disk is "Unallocated Space". Select that space and press Next.
 
-4. Cuando termine de instalar y aparezca la primera pantalla de configuración ("¿Es este el país o región correcto?"), presiona las teclas Shift + F10 (o Shift + Fn + F10) para abrir la consola de comandos (CMD).
+4. When the installation finishes and the first configuration screen appears ("Is this the correct country or region?"), press the Shift + F10 keys (or Shift + Fn + F10) to open the command console (CMD).
 
-5. Escribe exactamente `oobe\bypassnro` y presiona Enter.
+5. Type exactly `oobe\bypassnro` and press Enter.
 
-6. El equipo se reiniciará. Vuelve a seleccionar el país y teclado. Al llegar a la pantalla de red, aparecerá una nueva opción abajo: "No tengo internet". Púlsala.
+6. The device will restart. Reselect the country and keyboard. When you reach the network screen, a new option will appear at the bottom: "I have no internet". Click it.
 
-7. Selecciona "Continuar con la configuración limitada", crea una cuenta de usuario Local (ej. "Admin") y termina hasta llegar al escritorio.
+7. Select "Continue with limited setup", create a Local user account (e.g., "Admin"), and finish until you reach the desktop.
 
-## Fase 4: Purgado de Claves y Candado de la Versión
+## Phase 4: Key Purging and Version Lock
 
-Aplica estos pasos en el escritorio, manteniendo el equipo sin internet, para evitar que Windows recupere su versión Pro original.
+Apply these steps on the desktop, keeping the device offline, to prevent Windows from recovering its original Pro version.
 
-1. Abre el menú Inicio, escribe cmd, haz clic derecho en "Símbolo del sistema" y selecciona Ejecutar como administrador.
+1. Open the Start menu, type cmd, right-click on "Command Prompt" and select Run as administrator.
 
-2. Borra la clave de la placa base del registro ejecutando: `slmgr.vbs /cpky`
+2. Delete the motherboard key from the registry by running: `slmgr.vbs /cpky`
 
-3. Desinstala cualquier clave precargada ejecutando: `slmgr.vbs /upk`
+3. Uninstall any preloaded key by running: `slmgr.vbs /upk`
 
-4. Fija la versión Home con la clave genérica oficial ejecutando: `slmgr.vbs /ipk YTMG3-N6DKC-DKB77-7M9GH-8HVX7`
+4. Lock the Home version with the official generic key by running: `slmgr.vbs /ipk YTMG3-N6DKC-DKB77-7M9GH-8HVX7`
 
-5. Bloquea las actualizaciones de versión forzadas: Presiona Windows + R, escribe regedit y navega hasta `HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft`. Si no existe, crea dentro una clave llamada WindowsStore. Dentro de ella, crea un "Valor de DWORD (32 bits)" llamado DisableOSUpgrade y ponle valor 1.
+5. Block forced version updates: Press Windows + R, type regedit and navigate to `HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft`. If it doesn't exist, create a key called WindowsStore inside it. Inside it, create a "DWORD (32-bit) Value" called DisableOSUpgrade and set its value to 1.
 
-## Fase 5: Desactivación de Telemetría y Módulos MDM
+## Phase 5: Telemetry and MDM Module Deactivation
 
-Cortaremos de raíz los servicios de Windows encargados de la administración remota.
+We will cut off at the root the Windows services responsible for remote administration.
 
-En el mismo cmd como Administrador, ejecuta estos dos comandos para inutilizar el motor de enrutamiento MDM:
+In the same Administrator CMD, run these two commands to disable the MDM routing engine:
 
 ```
 sc stop dmwappushservice
 sc config dmwappushservice start= disabled
 ```
 
-Ejecuta estos dos para apagar la telemetría corporativa:
+Run these two to turn off corporate telemetry:
 
 ```
 sc stop DiagTrack
 sc config DiagTrack start= disabled
 ```
 
-Ejecuta este comando en una sola línea para prohibir la inscripción de dispositivos móviles:
+Run this command on a single line to prohibit mobile device enrollment:
 
 ```
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\MDM" /v DisableRegistration /t REG_DWORD /d 1 /f
 ```
 
-Ejecuta este comando para bloquear la unión automática a Azure (Entra ID) en segundo plano:
+Run this command to block automatic joining to Azure (Entra ID) in the background:
 
 ```
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WorkplaceJoin" /v BlockAADWorkplaceJoin /t REG_DWORD /d 1 /f
 ```
 
-## Fase 6: Bloqueo de Servidores en el Archivo Hosts
+## Phase 6: Server Blocking in the Hosts File
 
-Evitaremos que el equipo contacte con los dominios de despliegue de Microsoft, blindando el archivo para que el antivirus no lo revierta.
+We will prevent the device from contacting Microsoft's deployment domains, shielding the file so that antivirus doesn't revert it.
 
-1. Abre el menú Inicio, busca el Bloc de notas y ábrelo como Administrador.
+1. Open the Start menu, search for Notepad and open it as Administrator.
 
-2. Ve a Archivo > Abrir. Navega a `C:\Windows\System32\drivers\etc`. Cambia la vista inferior a "Todos los archivos (.)" y abre el archivo hosts.
+2. Go to File > Open. Navigate to `C:\Windows\System32\drivers\etc`. Change the bottom view to "All files (.)" and open the hosts file.
 
-3. Añade estas dos líneas al final del texto, guarda (Ctrl+G) y cierra el bloc de notas:
+3. Add these two lines at the end of the text, save (Ctrl+S) and close Notepad:
 
    ```
    0.0.0.0 ztd.desktop.microsoft.com
    0.0.0.0 cs.dds.microsoft.com
    ```
 
-4. Abre Seguridad de Windows > Protección antivirus y contra amenazas > Administrar la configuración. Baja hasta "Exclusiones", haz clic en Agregar o quitar exclusiones > Agregar exclusión > Archivo. Selecciona el archivo hosts que acabas de modificar.
+4. Open Windows Security > Virus & threat protection > Manage settings. Scroll down to "Exclusions", click Add or remove exclusions > Add exclusion > File. Select the hosts file you just modified.
 
-5. Abre el Explorador de archivos, ve a `C:\Windows\System32\drivers\etc`, haz clic derecho sobre el archivo hosts > Propiedades, marca la casilla Solo lectura y dale a Aceptar.
+5. Open File Explorer, go to `C:\Windows\System32\drivers\etc`, right-click on the hosts file > Properties, check the Read-only box and click OK.
 
-## Fase 7: Conexión Final y Uso Seguro
+## Phase 7: Final Connection and Safe Use
 
-Tu equipo ya está fortificado.
+Your device is now fortified.
 
-1. Conecta el equipo a Internet.
+1. Connect the device to the Internet.
 
-2. Ve a Configuración > Cuentas > Tu información y pulsa "Iniciar sesión con una cuenta de Microsoft en su lugar". Puedes añadir tu cuenta personal libremente. Configura Windows Hello (PIN o Biometría) en "Opciones de inicio de sesión".
+2. Go to Settings > Accounts > Your info and click "Sign in with a Microsoft account instead". You can freely add your personal account. Configure Windows Hello (PIN or Biometrics) in "Sign-in options".
 
-**Regla Crítica de Uso**: Si en algún momento necesitas iniciar sesión con una cuenta de trabajo (Office 365, Teams, Outlook), aparecerá una ventana diciendo "Permitir que mi organización administre mi dispositivo". Debes desmarcar siempre esa casilla y hacer clic explícitamente en "No, iniciar sesión solo en esta aplicación".
+**Critical Usage Rule**: If at any point you need to sign in with a work account (Office 365, Teams, Outlook), a window will appear saying "Allow my organization to manage my device". You must always uncheck that box and explicitly click "No, sign in only to this app".
 
-Siguiendo esta guía completa, el equipo actuará a todos los efectos como un ordenador personal de consumo, manteniendo bloqueadas las puertas traseras del control empresarial.
+By following this complete guide, the device will act in all respects as a consumer personal computer, keeping the backdoors of corporate control blocked.
