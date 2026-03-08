@@ -172,6 +172,19 @@ The Registry Editor window will open.
 
 ---
 
+## ⚠️ Important: About the Generic Key (Read This)
+
+The product key you installed (`YTMG3-N6DKC-DKB77-7M9GH-8HVX7`) is **generic and temporary, It does NOT permanently activate Windows**.
+
+**Eventually**, you'll want a proper Windows 11 Home license key. Your options:
+
+The generic key does its job for now: it locks your device to Home edition and keeps Autopilot dead. You can always upgrade to a genuine key whenever you're ready.
+
+!!! tip "Timing"
+    Don't worry about this during the main 7 phases. Get the device completely unlocked first, verify it works, then decide if you want to invest in a genuine activation key.
+
+---
+
 ## Registry Path Quick Reference
 
 If you need to find this setting again later, it's at:
