@@ -51,7 +51,7 @@ If you prefer to **automate all of Phase 4**, you can use a PowerShell script th
 2. Right-click on it and select **Properties**
 3. Check the **"Unblock"** checkbox at the bottom and click **OK**
 4. Right-click on the script file and select **Run with PowerShell**
-5. If prompted about execution policy, type `Y` and press Enter
+5. Click **"Yes"** when Windows asks for Administrator permission (UAC dialog)
 6. The script will automatically execute all Phase 4 commands with delays between them
 
 !!! tip "Why Use the Script?"

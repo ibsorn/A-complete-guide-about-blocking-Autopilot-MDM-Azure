@@ -1,10 +1,11 @@
 # Phase 5: Automated MDM Disabling Script
 # This script will automatically disable MDM services and block Azure AD enrollment
-# Run as Administrator
+# Includes automatic UAC elevation
 
-# Ensure running as Administrator
+# Auto-elevate to Administrator
 if (-NOT ([Security.Principal.WindowsIdentity]::GetCurrent().Groups -match "S-1-5-32-544")) {
-    Write-Host "This script must be run as Administrator. Please right-click PowerShell and select 'Run as Administrator'." -ForegroundColor Red
+    Write-Host "Requesting Administrator privileges..." -ForegroundColor Yellow
+    Start-Process powershell -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs
     exit
 }
 

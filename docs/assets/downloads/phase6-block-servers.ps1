@@ -1,10 +1,11 @@
 # Phase 6: Automated Hosts File Modification Script
 # This script will automatically block Microsoft Autopilot and enrollment servers
-# Run as Administrator
+# Includes automatic UAC elevation
 
-# Ensure running as Administrator
+# Auto-elevate to Administrator
 if (-NOT ([Security.Principal.WindowsIdentity]::GetCurrent().Groups -match "S-1-5-32-544")) {
-    Write-Host "This script must be run as Administrator. Please right-click PowerShell and select 'Run as Administrator'." -ForegroundColor Red
+    Write-Host "Requesting Administrator privileges..." -ForegroundColor Yellow
+    Start-Process powershell -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs
     exit
 }
 
@@ -19,8 +20,8 @@ $hostsPath = "C:\Windows\System32\drivers\etc\hosts"
 Write-Host "[1/4] Preparing hosts file..." -ForegroundColor Yellow
 try {
     $hostsFile = Get-Item $hostsPath -ErrorAction SilentlyContinue
-    if ($hostsFile.Attributes -match "ReadOnly") {
-        Set-ItemProperty -Path $hostsPath -Name Attributes -Value ($hostsFile.Attributes -bxor [System.IO.FileAttributes]::ReadOnly)
+    if ($hostsFile -and $hostsFile.IsReadOnly) {
+        $hostsFile.IsReadOnly = $false
         Write-Host "✓ Read-only attribute removed" -ForegroundColor Green
     }
 } catch {
@@ -57,8 +58,8 @@ Write-Host ""
 # Step 4: Protect hosts file (set back to read-only)
 Write-Host "[4/4] Protecting hosts file..." -ForegroundColor Yellow
 try {
-    # Set read-only flag
-    Set-ItemProperty -Path $hostsPath -Name Attributes -Value (Get-Item $hostsPath).Attributes -bor [System.IO.FileAttributes]::ReadOnly
+    $hostsFile = Get-Item $hostsPath
+    $hostsFile.IsReadOnly = $true
     Write-Host "✓ Hosts file set to read-only" -ForegroundColor Green
 } catch {
     Write-Host "⚠ Could not set read-only flag: $_" -ForegroundColor Orange

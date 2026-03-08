@@ -38,11 +38,8 @@ If you prefer to **automate all of Phase 6**, you can use a PowerShell script th
 2. Right-click on it and select **Properties**
 3. Check the **"Unblock"** checkbox at the bottom and click **OK**
 4. Right-click on the script file and select **Run with PowerShell**
-5. If prompted about execution policy, type `Y` and press Enter
+5. Click **"Yes"** when Windows asks for Administrator permission (UAC dialog)
 6. The script will automatically modify your hosts file and apply protections
-
-!!! warning "Administrator Required"
-    The script must run as Administrator. If you right-click and don't see "Run with PowerShell," search for PowerShell, right-click it, select "Run as administrator," then run: `& 'C:\path\to\phase6-block-servers.ps1'`
 
 !!! tip "Script Benefits"
     - Automatically adds blocking entries
