@@ -1,0 +1,11 @@
+# Allow all search engines to index this site
+User-agent: *
+Allow: /
+
+# Specific rules for better crawling
+Disallow: /theme/
+Disallow: /assets/
+Disallow: /search/
+
+# Sitemap location
+Sitemap: https://ibsorn.github.io/Breaking-Free-from-Autopilot/sitemap.xml

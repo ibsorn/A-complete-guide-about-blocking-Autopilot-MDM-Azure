@@ -1,8 +1,10 @@
 site_name: Breaking Free from Autopilot
-site_description: Complete guide to bypass Autopilot, MDM, and Azure enrollment on Windows devices.
+site_url: https://ibsorn.github.io/Breaking-Free-from-Autopilot/
+site_description: Complete guide to bypass Autopilot, MDM, Azure enrollment, and Device Management on Windows. Step-by-step instructions to remove corporate locks from Windows 11.
 site_author: "Your Organization"
 repo_name: ibsorn/breaking-free-from-autopilot
 repo_url: https://github.com/ibsorn/breaking-free-from-autopilot
+copyleft: "© 2026. This guide is provided as-is for educational purposes."
 
 docs_dir: docs/
 
@@ -18,10 +20,27 @@ nav:
 
 theme:
   name: 'material'
+  custom_dir: overrides
   palette:
     scheme: 'slate'
     primary: 'indigo'
     accent: 'indigo'
+  features:
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.tabs.link
+    - navigation.instant
+    - navigation.sections
+    - content.code.copy
+    - toc.integrate
+
+plugins:
+  - search:
+      lang:
+        - en
+  - sitemap:
+      priority: 1.0
 
 markdown_extensions:
   - markdown.extensions.admonition
@@ -35,3 +54,12 @@ markdown_extensions:
   - pymdownx.tabbed:
       alternate_style: true
   - tables
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/ibsorn/breaking-free-from-autopilot
+  og_image: https://ibsorn.github.io/Breaking-Free-from-Autopilot/assets/images/og-image.jpg
+  og_description: Bypass Autopilot, MDM, and Azure enrollment on Windows 11. Complete technical guide with automated scripts.
+  twitter_username: "@ibsorn"
+  og_type: website

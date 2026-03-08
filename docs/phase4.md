@@ -1,3 +1,8 @@
+---
+description: Phase 4 - Lock Windows 11 to Home edition. Remove preinstalled retail keys, purge license keys, and set registry policies to prevent edition upgrade or MDM re-enrollment.
+keywords: license key, Home edition, registry policy, preinstalled retail key, upgrade block, PRK
+---
+
 # Phase 4: Key Purging and Version Lock
 
 ## Overview

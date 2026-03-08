@@ -1,3 +1,8 @@
+---
+description: Phase 1 of bypassing Autopilot - BIOS/UEFI hardware cleanup. Clear TPM module, disable Computrace/Lojack, and remove corporate hardware fingerprints.
+keywords: BIOS, UEFI, TPM, Computrace, hardware hash, Lojack, hardware cleanup
+---
+
 # Phase 1: Deep Hardware Cleanup (BIOS/UEFI)
 
 ## Overview

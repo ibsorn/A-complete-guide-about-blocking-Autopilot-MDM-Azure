@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block site_meta %}
+  {{ super() }}
+  <!-- Enhanced SEO Meta Tags -->
+  <meta name="theme-color" content="#303f9f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+  <!-- OpenGraph Meta Tags for Social Sharing -->
+  <meta property="og:site_name" content="Breaking Free from Autopilot">
+  <meta property="og:locale" content="en_US">
+  
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@ibsorn">
+  
+  <!-- Canonical URL for duplicate content prevention -->
+  <link rel="canonical" href="{{ config.site_url }}">
+  
+  <!-- JSON-LD Structured Data for Knowledge Graphs -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Breaking Free from Autopilot - Complete Windows Device Unlock Guide",
+    "description": "Comprehensive technical guide to bypass Microsoft Autopilot, MDM, and Azure enrollment on Windows 11 devices",
+    "image": "{{ config.site_url }}/assets/images/og-image.jpg",
+    "datePublished": "2026-03-01",
+    "dateModified": "2026-03-08",
+    "author": {
+      "@type": "Organization",
+      "name": "ibsorn"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Breaking Free from Autopilot",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "{{ config.site_url }}/assets/images/logo.png"
+      }
+    },
+    "mainEntity": {
+      "@type": "HowTo",
+      "name": "How to Bypass Autopilot and MDM on Windows",
+      "description": "Complete 7-phase process to remove Autopilot, MDM, and Azure enrollment locks from Windows devices",
+      "step": [
+        {
+          "@type": "HowToStep",
+          "name": "Phase 1: Deep Hardware Cleanup",
+          "url": "{{ config.site_url }}phase1/"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Phase 2: USB Preparation",
+          "url": "{{ config.site_url }}phase2/"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Phase 3: Clean Installation",
+          "url": "{{ config.site_url }}phase3/"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Phase 4: Key Purging",
+          "url": "{{ config.site_url }}phase4/"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Phase 5: Telemetry & MDM Removal",
+          "url": "{{ config.site_url }}phase5/"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Phase 6: Server Blocking",
+          "url": "{{ config.site_url }}phase6/"
+        },
+        {
+          "@type": "HowToStep",
+          "name": "Phase 7: Final Setup",
+          "url": "{{ config.site_url }}phase7/"
+        }
+      ]
+    }
+  }
+  </script>
+  
+  <!-- Breadcrumb JSON-LD for Navigation -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "{{ config.site_url }}"
+      }
+    ]
+  }
+  </script>
+{% endblock %}
+
+{% block analytics %}
+  {{ super() }}
+  <!-- Additional tracking and SEO enhancements can be added here -->
+{% endblock %}

@@ -1,3 +1,8 @@
+---
+description: Phase 6 - Block Autopilot enrollment servers via hosts file. Add Microsoft enrollment domains to hosts file and set Windows Defender exclusions to prevent Autopilot detection.
+keywords: hosts file, domain blocking, Autopilot servers, ztd.desktop.microsoft.com, cs.dds.microsoft.com, Windows Defender
+---
+
 # Phase 6: Server Blocking in the Hosts File
 
 ## Overview

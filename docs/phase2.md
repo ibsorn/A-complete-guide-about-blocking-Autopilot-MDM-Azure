@@ -1,3 +1,8 @@
+---
+description: Phase 2 - Prepare Windows 11 installation media to force Home edition. Modify ei.cfg file to bypass Pro requirement and prevent future Autopilot re-enrollment.
+keywords: Windows 11 Home, installation media, ei.cfg, ISO modification, edition lock
+---
+
 # Phase 2: USB Preparation (Recommended: Force Windows 11 Home)
 
 ## Overview

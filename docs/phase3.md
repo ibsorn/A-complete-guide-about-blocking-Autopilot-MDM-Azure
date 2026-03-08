@@ -1,3 +1,8 @@
+---
+description: Phase 3 - Clean Windows 11 installation offline. Skip Microsoft account setup using BypassNRO command and disconnect from network to prevent Autopilot/Entra ID enrollment.
+keywords: Windows installation, offline installation, BypassNRO, clean install, skip device setup
+---
+
 # Phase 3: Clean Installation and Network Bypass (BypassNRO)
 
 ## Overview

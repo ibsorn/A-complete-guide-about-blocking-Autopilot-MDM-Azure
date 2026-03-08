@@ -1,3 +1,8 @@
+---
+description: Phase 5 - Disable MDM modules and telemetry on Windows. Stop dmwappushservice, disable DiagTrack, and block Azure AD workplace join to prevent device management enrollment.
+keywords: MDM, telemetry, Windows services, dmwappushservice, DiagTrack, Azure AD, device management
+---
+
 # Phase 5: Telemetry and MDM Module Deactivation
 
 ## Overview
