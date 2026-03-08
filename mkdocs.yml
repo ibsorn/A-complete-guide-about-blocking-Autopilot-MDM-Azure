@@ -1,8 +1,8 @@
-site_name: Blocking Autopilot, MDM & Azure
-site_description: Step-by-step guide to neutralize corporate controls on Windows devices.
-site_author: "Your Name"
-repo_name: yourusername/your-repo-name
-repo_url: https://github.com/yourusername/your-repo-name
+site_name: Breaking Free from Autopilot
+site_description: Complete guide to bypass Autopilot, MDM, and Azure enrollment on Windows devices.
+site_author: "Your Organization"
+repo_name: ibsorn/breaking-free-from-autopilot
+repo_url: https://github.com/ibsorn/breaking-free-from-autopilot
 
 docs_dir: docs/
 
@@ -25,6 +25,7 @@ theme:
 
 markdown_extensions:
   - markdown.extensions.admonition
+  - markdown.extensions.attr_list
   - markdown.extensions.codehilite:
       guess_lang: false
   - markdown.extensions.toc:

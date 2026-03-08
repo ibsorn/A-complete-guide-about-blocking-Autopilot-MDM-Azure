@@ -18,11 +18,12 @@ The **easiest and most reliable path** to breaking free from Autopilot is instal
 | **Enterprise Control** | Minimal | Maximum |
 
 !!! info "Alternative: Modified Windows 11 Versions"
+
     If you prefer **not** to use Home edition, you have alternatives:
+
     - **Windows 11 Enterprise LTSC** (if you can obtain it) has Autopilot components that can be disabled post-install
     - **Windows 11 with Autopilot components removed** – Some community-modified versions exist, though these are less official and require finding reliable sources
-    - **Other lightweight Linux distributions** – Completely Autopilot-free, but requires more technical knowledge
-    
+
     However, **forcing Home edition remains the simplest, most straightforward approach** and is recommended for most users.
 
 In this phase, you'll **intercept the Windows 11 installer and force it to install Home edition** by creating a special configuration file on the installation media. If you choose a different approach, skip to Phase 3 and adapt the instructions accordingly.
