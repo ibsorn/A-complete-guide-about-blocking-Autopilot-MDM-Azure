@@ -1,22 +1,176 @@
 # Phase 4: Key Purging and Version Lock
 
-Apply these steps on the desktop, keeping the device offline, to prevent Windows from recovering its original Pro version.
+## Overview
 
-1. Open the Start menu, type `cmd`, right-click on **Command Prompt** and select **Run as administrator**.
+Even though you installed Home edition (or another Windows version), your device's motherboard still contains a **Preinstalled Retail Key (PRK)** – a Pro license engraved in the firmware. If Windows ever connects to Microsoft servers, it will automatically detect this key and "upgrade" your OS, bringing Autopilot re-enrollment with it.
 
-2. Delete the motherboard key from the registry by running:
-   ```powershell
+### Why This Phase Matters
+
+**If you installed Home Edition (Phase 2):**
+- This phase locks in Home edition and prevents any automatic upgrade to Pro
+- Essential for keeping Autopilot disabled at the OS level
+
+**If you installed a different Windows version or modified Windows 11:**
+- This phase is still highly recommended if your BIOS contains a PRK (which most corporate devices do)
+- Allows you to use a different product key (not associated with corporate control)
+- Provides registry-level protection against forced upgrades
+
+### What You'll Do
+
+In this phase, you'll:
+1. **Delete the corporate PRK** from Windows registry
+2. **Remove any preloaded enterprise keys** that might trigger automatic upgrades
+3. **Install a Home Edition generic key** (if using Home) or your own key (if using a different version)
+4. **Block Windows from attempting OS upgrades** at the registry level
+
+**Time required:** 5 minutes  
+**Important:** Stay offline during this entire phase
+
+!!! warning "Still Offline"
+    Do NOT connect to the internet yet. You're still "immunizing" the device against corporate control. We'll connect in Phase 7 once defenses are fully in place.
+
+!!! info "About Preinstalled Retail Keys (PRKs)"
+    Corporate manufacturers embed Pro/Enterprise licenses directly in the motherboard's BIOS/UEFI. These are called **Preinstalled Retail Keys (PRKs)**. They're designed to automatically "activate" the correct Windows edition when Windows detects them. By purging them from the OS registry, we prevent Windows from ever using them.
+
+---
+
+## Automated Alternative: Use a PowerShell Script
+
+If you prefer to **automate all of Phase 4**, you can use a PowerShell script that will execute all the recomended commands:
+
+[📥 Download phase4-lock-home-edition.ps1](assets/downloads/phase4-lock-home-edition.ps1){: .md-button }
+
+**To use the script:**
+
+1. Download the file above
+2. Right-click on it and select **Properties**
+3. Check the **"Unblock"** checkbox at the bottom and click **OK**
+4. Right-click on the script file and select **Run with PowerShell**
+5. If prompted about execution policy, type `Y` and press Enter
+6. The script will automatically execute all Phase 4 commands with delays between them
+
+!!! tip "Why Use the Script?"
+    - **Automatic delays** – Each command gets time to process before the next one runs
+    - **No typing required** – No risk of typos in license keys
+    - **Clear visual feedback** – Colorized output shows exactly what's happening
+    - **Handles registry creation** – Automatically creates registry paths if they don't exist
+    - **Faster than manual** – All four steps run automatically
+
+If you prefer to do it manually, follow the instructions below.
+
+---
+
+## Step-by-Step Instructions
+
+### Step 1: Open Command Prompt as Administrator
+
+1. Click the **Start menu**
+2. Type `cmd` (just type it, don't press Enter immediately)
+3. You'll see **"Command Prompt"** in the results
+4. **Right-click on it** and select **"Run as administrator"**
+5. Click **"Yes"** when asked if you want to allow this app to make changes
+
+You should now see a black Command Prompt window with `C:\Windows\System32>` or similar.
+
+!!! note "Command Prompt vs PowerShell"
+    We're using Command Prompt (cmd), not PowerShell. Make sure you opened the right one.
+
+### Step 2: Delete the Motherboard License Key
+
+This removes the record of the Pro license burned into the motherboard:
+
+1. **Type exactly:**
+   ```
    slmgr.vbs /cpky
    ```
 
-3. Uninstall any preloaded key by running:
-   ```powershell
+2. **Press Enter**
+3. A dialog box will appear saying **"Licensing data has been cleared."**
+4. Click **OK**
+
+!!! tip "What This Does"
+    The `/cpky` command purges the certificate from the registry. The motherboard still has Pro license info in firmware, but Windows no longer has a copy of it in the OS.
+
+### Step 3: Uninstall the Pre-Installed Key
+
+Some corporate devices have pre-installation keys for Pro edition. Let's remove it:
+
+1. **Type exactly:**
+   ```
    slmgr.vbs /upk
    ```
 
-4. Lock the Home version with the official generic key by running:
-   ```powershell
+2. **Press Enter**
+3. A message will appear saying **"Uninstall SUCCEEDED"** (or similar)
+4. Click **OK**
+
+!!! note "Even If No Key Was Found"
+    This command is safe to run even if there's no pre-installed key. It will simply report that there was nothing to uninstall.
+
+### Step 4: Install the Home Edition Generic Key
+
+Now we'll install an official Microsoft generic key for Home edition, locking it in:
+
+1. **Type exactly:**
+   ```
    slmgr.vbs /ipk YTMG3-N6DKC-DKB77-7M9GH-8HVX7
    ```
 
-5. Block forced version updates: press **Windows + R**, type `regedit` and navigate to `HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft`. If it doesn't exist, create a key called `WindowsStore` inside it. Inside `WindowsStore`, create a **DWORD (32-bit) Value** called `DisableOSUpgrade` and set its value to `1`.
+2. **Press Enter**
+3. A dialog box will say **"The product key was successfully installed."** or **"Installed a product key."**
+4. Click **OK**
+
+!!! success "Home Edition is Locked In"
+    This generic key is a real, Microsoft-provided key for Home edition. It's freely distributed and publicly available. By installing it, you're telling Windows: "This is definitely Home edition."
+
+### Step 5: Block Forced OS Upgrades
+
+Finally, we'll disable Windows' ability to force upgrade to Pro:
+
+1. **Close Command Prompt** (type `exit` and press Enter, or just close the window)
+2. Press **Windows + R** to open the Run dialog
+3. Type `regedit` and press **Enter**
+4. Click **"Yes"** if asked to allow Registry Editor
+
+The Registry Editor window will open.
+
+!!! warning "Registry Editor is Powerful"
+    The Registry Editor lets you change Windows at a deep level. Don't change anything except what's described below. One wrong edit could break Windows.
+
+5. In the **left panel**, navigate to:
+   ```
+   HKEY_LOCAL_MACHINE > SOFTWARE > Policies > Microsoft
+   ```
+
+   - If `Policies` doesn't exist, right-click on `SOFTWARE` > **New > Key**, name it `Policies`
+   - If `Policies > Microsoft` doesn't exist, right-click on `Policies` > **New > Key**, name it `Microsoft`
+
+6. **Right-click inside the `Microsoft` folder** (in the left panel) and select **New > Key**
+7. Name it **`Windows`** (if it doesn't already exist)
+8. **Right-click on `Windows`** and select **New > Key**
+9. Name it **`WindowsUpdate`**
+10. **Right-click inside the `WindowsUpdate` folder** (left panel) > **New > DWORD (32-bit) Value**
+11. Name it **`DisableOSUpgrade`**
+12. **Double-click it** and set the value to **`1`**
+13. Click **OK**
+
+!!! success "Upgrade Disabled"
+    Windows can no longer force-upgrade you to Pro. Even if a Windows Update tries, it will be blocked by this registry setting.
+
+### Step 6: Close Registry Editor and Restart
+
+1. Close the Registry Editor
+2. You can restart now, or proceed to Phase 5
+
+!!! success "Phase 4 Complete"
+    Your Home edition is now locked in place. Windows cannot recover the Pro license, and it cannot be forced to Pro edition. You're one step closer to freedom.
+
+---
+
+## Registry Path Quick Reference
+
+If you need to find this setting again later, it's at:
+```
+HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate
+DWORD: DisableOSUpgrade = 1
+```
