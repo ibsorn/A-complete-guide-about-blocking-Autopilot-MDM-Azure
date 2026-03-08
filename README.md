@@ -1,90 +1,73 @@
 # Breaking Free from Autopilot
 
-> **Complete Technical Guide to Bypass Microsoft Autopilot, MDM, and Azure Enrollment on Windows 11**
+So you've got a Windows laptop that *technically* belongs to you, but Microsoft and your former employer disagree. You can't install software, can't change settings, can't even use it with your own account. Welcome to the hell that is corporate device locks.
 
-A **comprehensive, step-by-step guide** to completely remove Microsoft Autopilot locks, Mobile Device Management (MDM) enrollment, and Azure/Entra ID enrollment from Windows devices—regaining full control of your computer.
+This guide walks you through **exactly how to remove them**—no BS, no "you need a new device," just proven technical steps that actually work.
 
-**Keywords:** Autopilot bypass, MDM removal, Azure enrollment removal, Windows 11 unlock, corporate device unlock, Device Management bypass, Windows enterprise removal
+## Read the Full Guide
 
-## 📖 Read the Complete Guide Online
+Everything you need is documented online at:
 
-The full interactive documentation with code examples and automated scripts is published at:
+**→ [ibsorn.github.io/Breaking-Free-from-Autopilot/](https://ibsorn.github.io/Breaking-Free-from-Autopilot/)**
 
-👉 **[https://ibsorn.github.io/Breaking-Free-from-Autopilot/](https://ibsorn.github.io/Breaking-Free-from-Autopilot/)**
+Code examples, PowerShell scripts, troubleshooting, everything is there.
 
-## What This Guide Does
+## What's Actually Happening Here
 
-Microsoft's Autopilot and Device Management systems lock corporate devices to prevent unauthorized access and modifications. If you've inherited or obtained a device locked to your former employer's Azure/Entra ID tenant, this guide provides the **exact technical steps** to completely remove all locks without reinstalling Windows from scratch.
+When a company sets up a device with Autopilot, they plant three separate locks:
 
-- Clear BIOS-level tracking and enrollment records
-- Force Windows 11 Home edition (preventing Autopilot re-enrollment)
-- Disable MDM services and telemetry
-- Block enrollment servers at the OS level
-- Reclaim full control with a personal Microsoft account
+1. **BIOS-level hardware lock** — Your motherboard has a unique identifier that Microsoft knows about
+2. **MDM (Mobile Device Management)** — Background services constantly phone home to corporate servers
+3. **Azure/Entra ID tenant lock** — Your device is bound to their organization's directory
 
-**All seven phases are thoroughly documented with:**
-- Step-by-step instructions for both manual and automated approaches
-- Downloadable PowerShell scripts to automate complex phases
-- Troubleshooting guides for common issues
-- Security tips for preventing re-enrollment
+Even if you wipe the drive and reinstall Windows, these locks persist. The new Windows installation sees the locked hardware, sees the MDM services, and immediately re-enrolls itself. It's basically uninstall-proof.
 
-## 🚀 Quick Start
+This guide breaks all three locks in sequence. By the end, you have a genuinely free device.
 
-1. **Visit the website:** https://ibsorn.github.io/Breaking-Free-from-Autopilot/
-2. **Start with Phase 1:** Deep Hardware Cleanup (BIOS/UEFI)
-3. **Follow through Phase 7:** Final security setup
-4. **Total time:** 1–2 hours for the complete process
+## What You'll Accomplish
 
-## 📁 Repository Structure
+- **Phase 1:** Erase the hardware ID from your BIOS (TPM wipe, Computrace removal, etc.)
+- **Phase 2:** Prepare a Windows 11 installer that forces Home edition
+- **Phase 3:** Do a completely offline clean install  
+- **Phase 4:** Lock Windows to Home edition so it can't auto-upgrade
+- **Phase 5:** Disable all the MDM background services
+- **Phase 6:** Block the Microsoft servers that handle enrollment (at the OS level)
+- **Phase 7:** Set up your own account and verify everything's working
 
-```
-docs/
-  ├── index.md              # Introduction & phase overview
-  ├── phase1.md–phase7.md   # Seven detailed phases
-  └── assets/downloads/     # Downloadable scripts & files
-    ├── ei.cfg
-    ├── phase4-lock-home-edition.ps1
-    ├── phase5-disable-mdm.ps1
-    ├── phase6-block-servers.ps1
-    └── phase7-verify-protection.ps1
-mkdocs.yml                  # MkDocs configuration
-requirements.txt            # Python dependencies
-```
+Total time: roughly 1-2 hours depending on how familiar you are with BIOS menus.
 
-## 🛠️ For Developers / Contributing
+Everything includes both manual steps and downloadable PowerShell scripts (so you're not typing 50 commands by hand).
 
-This documentation is built with **MkDocs** + **Material for MkDocs** theme and automatically published to GitHub Pages on every push.
+## How This Repo Works
 
-### Build Locally
+The documentation is built with **MkDocs** and automatically published to GitHub Pages. Every time you push changes, the site rebuilds automatically.
 
-Install Python 3.7+ and the required dependencies:
+### Run Locally
 
 ```powershell
 pip install -r requirements.txt
 mkdocs serve
 ```
 
-Then visit `http://localhost:8000` in your browser.
+Visit `http://localhost:8000` to preview.
 
-### Make Changes
+### Project Structure
 
-1. Edit `.md` files in the `docs/` folder
-2. Commit and push to the `main` branch
-3. GitHub Actions automatically rebuilds and publishes to `gh-pages`
+```
+docs/
+  ├── index.md           # Start here
+  ├── phase1.md–phase7.md
+  └── assets/downloads/  # Scripts & config files
+mkdocs.yml
+overrides/              # Custom HTML templates (SEO, OpenGraph)
+```
 
-### Add/Update Scripts
+## Fair Warning
 
-Scripts are stored in `docs/assets/downloads/` and automatically available for download on the website.
+This works. People do it all the time. But understand what you're doing: you're disabling security features that employers use to protect corporate data. Make sure the device actually belongs to you before you do this, because corporate security teams don't appreciate surprises. Laws vary by country—do your homework.
 
-## ⚠️ Disclaimer
+## Links
 
-This guide is provided for educational purposes. Users are responsible for understanding the legal implications of modifying device ownership and enrollment status in their jurisdiction. Always ensure you have legal rights to the device before making these modifications.
+- **Website:** [ibsorn.github.io/Breaking-Free-from-Autopilot/](https://ibsorn.github.io/Breaking-Free-from-Autopilot/)
+- **GitHub:** [github.com/ibsorn/breaking-free-from-autopilot](https://github.com/ibsorn/breaking-free-from-autopilot)
 
-## 📄 License
-
-See `LICENSE` file for licensing details.
-
----
-
-**Website:** https://ibsorn.github.io/Breaking-Free-from-Autopilot/  
-**Repository:** https://github.com/ibsorn/breaking-free-from-autopilot
