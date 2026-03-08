@@ -126,7 +126,8 @@ Type this command exactly (also one line):
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WorkplaceJoin" /v BlockAADWorkplaceJoin /t REG_DWORD /d 1 /f
 ```
 
-!!! warning "Azure AD (Now Called Entra ID)\A            Azure AD is Microsoft's identity and corporate device management system. Even if you disable other services, Windows can still try to enroll your device in Azure AD. This command blocks that.
+!!! warning "Azure AD (Now Called Entra ID)"
+    Azure AD is Microsoft's identity and corporate device management system. Even if you disable other services, Windows can still try to enroll your device in Azure AD. This command blocks that.
 
 ---
 

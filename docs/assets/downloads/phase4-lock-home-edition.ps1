@@ -35,11 +35,8 @@ function Wait-WithProgress {
 # Step 1: Delete motherboard key from registry
 Write-Host "[1/4] Deleting motherboard Pro license key..." -ForegroundColor Yellow
 try {
-    # Create COM object for license management
-    $service = New-Object -ComObject Microsoft.Licensing.VolumeActivation
-    
-    # Alternative: Use slmgr.vbs through WMI (more reliable)
-    $result = & cmd /c "slmgr.vbs /cpky 2>&1"
+    # Use cscript to run slmgr.vbs in silent console mode (no popup dialogs)
+    $result = & cscript //nologo $env:windir\system32\slmgr.vbs /cpky
     
     Write-Host "✓ Motherboard key purged" -ForegroundColor Green
     Wait-WithProgress -Seconds 3 -Message "Processing license change"
@@ -52,7 +49,7 @@ Write-Host ""
 # Step 2: Uninstall any preloaded key
 Write-Host "[2/4] Uninstalling preloaded product key..." -ForegroundColor Yellow
 try {
-    $result = & cmd /c "slmgr.vbs /upk 2>&1"
+    $result = & cscript //nologo $env:windir\system32\slmgr.vbs /upk
     Write-Host "✓ Preloaded key uninstalled" -ForegroundColor Green
     Wait-WithProgress -Seconds 3 -Message "Processing key removal"
 } catch {
@@ -65,7 +62,7 @@ Write-Host ""
 Write-Host "[3/4] Installing Home Edition generic key..." -ForegroundColor Yellow
 Write-Host "      Key: YTMG3-N6DKC-DKB77-7M9GH-8HVX7" -ForegroundColor Gray
 try {
-    $result = & cmd /c "slmgr.vbs /ipk YTMG3-N6DKC-DKB77-7M9GH-8HVX7 2>&1"
+    $result = & cscript //nologo $env:windir\system32\slmgr.vbs /ipk YTMG3-N6DKC-DKB77-7M9GH-8HVX7
     Write-Host "✓ Home Edition key installed" -ForegroundColor Green
     Write-Host "  (This is an official Microsoft generic key)" -ForegroundColor Gray
     Wait-WithProgress -Seconds 4 -Message "Activating Home Edition"
@@ -97,11 +94,20 @@ try {
         New-Item -Path $updatePath -Force | Out-Null
     }
     
-    # Create registry value
+    # Create registry value for WindowsUpdate
     New-ItemProperty -Path $registryPath -Name "DisableOSUpgrade" -Value 1 -PropertyType DWORD -Force | Out-Null
     Write-Host "✓ OS upgrade block installed in Registry" -ForegroundColor Green
     Write-Host "  Registry path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" -ForegroundColor Gray
     Write-Host "  Value: DisableOSUpgrade = 1" -ForegroundColor Gray
+    
+    # ALSO block edition upgrades via Windows Store policies (defense in depth)
+    $storePolicy = "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore"
+    if (-not (Test-Path $storePolicy)) {
+        New-Item -Path $storePolicy -Force | Out-Null
+    }
+    New-ItemProperty -Path $storePolicy -Name "DisableOSUpgrade" -Value 1 -PropertyType DWORD -Force | Out-Null
+    Write-Host "✓ Edition upgrade block also installed in WindowsStore policies" -ForegroundColor Green
+    Write-Host "  Registry path: HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore" -ForegroundColor Gray
     
     Wait-WithProgress -Seconds 2 -Message "Verifying registry changes"
 } catch {

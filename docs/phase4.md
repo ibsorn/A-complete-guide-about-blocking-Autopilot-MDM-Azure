@@ -128,9 +128,11 @@ Now we'll install an official Microsoft generic key for Home edition, locking it
 !!! success "Home Edition is Locked In"
     This generic key is a real, Microsoft-provided key for Home edition. It's freely distributed and publicly available. By installing it, you're telling Windows: "This is definitely Home edition."
 
-### Step 5: Block Forced OS Upgrades
+### Step 5: Block Forced OS Upgrades (Two Registry Locations)
 
-Finally, we'll disable Windows' ability to force upgrade to Pro:
+Finally, we'll disable Windows' ability to force upgrade to Pro. **Microsoft uses two separate mechanisms for edition upgrades**, so we'll block both:
+
+**Location 1: Windows Update Path**
 
 1. **Close Command Prompt** (type `exit` and press Enter, or just close the window)
 2. Press **Windows + R** to open the Run dialog
@@ -159,8 +161,25 @@ The Registry Editor window will open.
 12. **Double-click it** and set the value to **`1`**
 13. Click **OK**
 
-!!! success "Upgrade Disabled"
-    Windows can no longer force-upgrade you to Pro. Even if a Windows Update tries, it will be blocked by this registry setting.
+!!! success "First Block Installed"
+    The WindowsUpdate path now blocks OS version upgrades (e.g., Windows 10 → Windows 11). But Microsoft also uses the **Windows Store component** to silently upgrade editions (Home → Pro). We'll block that too.
+
+**Location 2: Windows Store Path (Defense in Depth)**
+
+14. In the left panel, go back to:
+    ```
+    HKEY_LOCAL_MACHINE > SOFTWARE > Policies > Microsoft
+    ```
+
+15. **Right-click inside the `Microsoft` folder** and select **New > Key**
+16. Name it **`WindowsStore`** (create it if it doesn't exist)
+17. **Right-click inside the `WindowsStore` folder** > **New > DWORD (32-bit) Value**
+18. Name it **`DisableOSUpgrade`**
+19. **Double-click it** and set the value to **`1`**
+20. Click **OK**
+
+!!! success "Upgrade Completely Blocked"
+    You've now blocked Windows from upgrading your edition through **both** the Windows Update path AND the Windows Store path. This is "defense in depth" — even if Microsoft updates one mechanism, the other will still protect you.
 
 ### Step 6: Close Registry Editor and Restart
 
@@ -187,8 +206,18 @@ The generic key does its job for now: it locks your device to Home edition and k
 
 ## Registry Path Quick Reference
 
-If you need to find this setting again later, it's at:
+If you need to find these settings again later, they're at:
+
+**Location 1 (Windows Update):**
 ```
 HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate
 DWORD: DisableOSUpgrade = 1
 ```
+
+**Location 2 (Windows Store - blocks edition upgrades):**
+```
+HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\WindowsStore
+DWORD: DisableOSUpgrade = 1
+```
+
+Both are required for complete, defense-in-depth protection against edition upgrades.

@@ -15,15 +15,29 @@ Write-Host ""
 
 $hostsPath = "C:\Windows\System32\drivers\etc\hosts"
 
-# Step 1: Check if entries already exist
-Write-Host "[1/4] Checking hosts file..." -ForegroundColor Yellow
+# Step 1: Remove read-only flag FIRST (before attempting to modify)
+Write-Host "[1/4] Preparing hosts file..." -ForegroundColor Yellow
+try {
+    $hostsFile = Get-Item $hostsPath -ErrorAction SilentlyContinue
+    if ($hostsFile.Attributes -match "ReadOnly") {
+        Set-ItemProperty -Path $hostsPath -Name Attributes -Value ($hostsFile.Attributes -bxor [System.IO.FileAttributes]::ReadOnly)
+        Write-Host "✓ Read-only attribute removed" -ForegroundColor Green
+    }
+} catch {
+    Write-Host "⚠ Could not remove read-only flag: $_" -ForegroundColor Orange
+}
+
+Write-Host ""
+
+# Step 2: Check if entries already exist
+Write-Host "[2/4] Checking hosts file..." -ForegroundColor Yellow
 $hostsContent = Get-Content $hostsPath -Raw
 
-if ($hostsContent -contains "ztd.desktop.microsoft.com") {
+if ($hostsContent -match "ztd.desktop.microsoft.com") {
     Write-Host "✓ Autopilot servers already blocked" -ForegroundColor Green
 } else {
-    # Step 2: Add blocking entries
-    Write-Host "[2/4] Adding blocking entries to hosts file..." -ForegroundColor Yellow
+    # Step 3: Add blocking entries
+    Write-Host "[3/4] Adding blocking entries to hosts file..." -ForegroundColor Yellow
     try {
         $newEntries = @"
 `n# Autopilot and Enrollment Servers (Phase 6)
@@ -40,14 +54,9 @@ if ($hostsContent -contains "ztd.desktop.microsoft.com") {
 
 Write-Host ""
 
-# Step 3: Remove read-only flag if set, modify, then set it back
-Write-Host "[3/4] Protecting hosts file..." -ForegroundColor Yellow
+# Step 4: Protect hosts file (set back to read-only)
+Write-Host "[4/4] Protecting hosts file..." -ForegroundColor Yellow
 try {
-    $hostsFile = Get-Item $hostsPath -ErrorAction SilentlyContinue
-    if ($hostsFile.Attributes -match "ReadOnly") {
-        Set-ItemProperty -Path $hostsPath -Name Attributes -Value ($hostsFile.Attributes -bxor [System.IO.FileAttributes]::ReadOnly)
-    }
-    
     # Set read-only flag
     Set-ItemProperty -Path $hostsPath -Name Attributes -Value (Get-Item $hostsPath).Attributes -bor [System.IO.FileAttributes]::ReadOnly
     Write-Host "✓ Hosts file set to read-only" -ForegroundColor Green
@@ -57,8 +66,8 @@ try {
 
 Write-Host ""
 
-# Step 4: Add to Windows Defender exclusions
-Write-Host "[4/4] Adding hosts file to Windows Defender exclusions..." -ForegroundColor Yellow
+# Step 5: Add to Windows Defender exclusions
+Write-Host "[5/5] Adding hosts file to Windows Defender exclusions..." -ForegroundColor Yellow
 try {
     # Check if Windows Defender is available
     $defenderStatus = Get-Service WinDefend -ErrorAction SilentlyContinue
