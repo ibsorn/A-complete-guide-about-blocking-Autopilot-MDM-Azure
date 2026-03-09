@@ -40,8 +40,6 @@ plugins:
   - search:
       lang:
         - en
-  - sitemap:
-      priority: 1.0
 
 markdown_extensions:
   - markdown.extensions.admonition
