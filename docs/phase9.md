@@ -9,7 +9,7 @@ keywords: internet connection, account setup, Windows Hello, verification, secur
 
 You've made it! Your device is now:
 - ✅ Free from BIOS-level tracking
-- ✅ Locked to Home edition
+- ✅ OS edition locked down (Home or Pro)
 - ✅ Enrollment services disabled
 - ✅ Enrollment servers blocked
 
@@ -189,13 +189,13 @@ Only now is it safe to connect to the internet.
 | Phase | Defense | Level |
 |-------|---------|-------|
 | 1 | TPM cleared, Computrace disabled | BIOS/Hardware |
-| 2 | Home edition installer forced | Installation Media |
+| 2 | Edition selection with optional Home forcing | Installation Media |
 | 3 | Clean Windows install, offline setup | OS Installation |
-| 4 | Pro license purged, Home locked, upgrades blocked | Registry/Licensing |
+| 4 | Corporate license keys purged, edition locked, upgrades blocked | Registry/Licensing |
 | 5 | MDM services killed, Azure AD blocked | OS Services |
 | 6 | Enrollment servers blocked | Network/Hosts File |
 | 7 | MDM executables blocked at firewall | Application/Firewall |
 | 8 | Hosts file monitored and auto-restored (optional) | Continuous Restoration |
 | 9 | Personal account, Windows Hello, internet connection | Final Safe Account Setup |
 
-**These eight core layers plus optional Phase 9 create an enterprise-grade defense stack.** Even if an attacker understands and tries to bypass one or two layers, the remaining independent layers will continue to protect your device.
+**These nine layers create an enterprise-grade defense stack (with Phase 8 being optional).** Even if an attacker understands and tries to bypass one or two layers, the remaining independent layers will continue to protect your device.

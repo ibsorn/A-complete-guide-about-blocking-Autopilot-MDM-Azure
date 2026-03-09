@@ -3,35 +3,36 @@ description: Phase 2 - Prepare Windows 11 installation media to force Home editi
 keywords: Windows 11 Home, installation media, ei.cfg, ISO modification, edition lock
 ---
 
-# Phase 2: USB Preparation (Recommended: Force Windows 11 Home)
+# Phase 2: Windows 11 Edition Selection (Recommended: Home)
 
 ## Overview
 
-The **easiest and most reliable path** to breaking free from Autopilot is installing **Windows 11 Home** instead of Pro. Here's why:
+In this phase, you'll prepare your installation media. You have a choice of Windows editions:
 
-- **Home Edition** has no Autopilot enrollment capabilities, no Azure AD join integration, and no built-in MDM support
-- **Pro Edition** (which is usually pre-installed) comes with all enterprise management features enabled
-- Corporate devices have the Pro license engraved in the motherboard's firmware, so the standard Windows installer will automatically upgrade to Pro if you don't intervene
+- **Windows 11 Home (Recommended)** – The safest path because it has no built-in Autopilot, Azure AD join, or MDM capabilities. If you choose Home, use the `ei.cfg` method below to force it during installation.
 
-### Why Home Edition Makes Sense
+- **Windows 11 Pro (Also Works)** – If you prefer or already have Pro, that's fine. The remaining phases (Phases 3–9) are specifically designed to completely disable all Autopilot, MDM, and Azure AD features on Pro edition. Many users successfully use Pro with this guide, but i highly suggest going for the Home edition.
+
+Both paths work. Home is simpler because the unwanted features don't exist on that edition. Pro requires more steps to disable them, but all those steps are in this guide.
+
+### Edition Comparison
 
 | Aspect | Home | Pro |
 |--------|------|-----|
-| **Autopilot Support** | No | Yes (enabled by default) |
-| **Azure AD Join** | No | Yes (enabled by default) |
-| **MDM Enrollment** | Limited | Full |
-| **Enterprise Control** | Minimal | Maximum |
+| **Autopilot Support** | None | Yes (can be disabled) |
+| **Azure AD Join** | None | Yes (can be disabled) |
+| **MDM Enrollment** | Limited | Yes (can be disabled) |
+| **Complexity** | Lower – features don't exist | Higher – features must be disabled |
 
-!!! info "Alternative: Modified Windows 11 Versions"
+!!! info "Alternative: Other Windows 11 Versions"
+    
+    - **Windows 11 Enterprise LTSC** – Has Autopilot components that can be theoretically disabled post-install, though this approach is **not tested or guaranteed** to work. Obtaining LTSC legally is also more difficult for most users.
+    
+    - **Windows 11 with Autopilot components removed** – Some community-modified versions exist, though these are less official, require finding reliable sources, and are **not tested or guaranteed** to work as intended.
 
-    If you prefer **not** to use Home edition, you have alternatives:
+    However, **forcing Home edition remains the simplest, most straightforward, and most reliably tested approach** and is recommended for most users.
 
-    - **Windows 11 Enterprise LTSC** (if you can obtain it) has Autopilot components that can be disabled post-install
-    - **Windows 11 with Autopilot components removed** – Some community-modified versions exist, though these are less official and require finding reliable sources
-
-    However, **forcing Home edition remains the simplest, most straightforward approach** and is recommended for most users.
-
-In this phase, you'll **intercept the Windows 11 installer and force it to install Home edition** by creating a special configuration file on the installation media. If you choose a different approach, skip to Phase 3 and adapt the instructions accordingly.
+This phase shows how to **prepare installation media and optionally force Home edition**. If you're choosing Home, you'll use the `ei.cfg` file method. If you're choosing Pro, skip the `ei.cfg` section and proceed directly to Phase 3.
 
 **Time required:** 5 minutes  
 **What you need:** 
@@ -39,8 +40,10 @@ In this phase, you'll **intercept the Windows 11 installer and force it to insta
 - A computer to prepare it on
 - Administrator rights on that computer
 
-!!! tip "Why Bother with This?"
-    Installing Home edition creates a **structural barrier** against Autopilot. Even if Phase 1–6 have issues, Home edition alone prevents enterprise enrollment. It's defense-in-depth.
+!!! note "Why Home + ei.cfg?"
+    If you're using Home edition, the `ei.cfg` file ensures the installer defaults to Home instead of Pro. This prevents Windows from auto-upgrading to the Pro license stored in your BIOS.
+    
+    If you're using Pro edition, you don't need this step – skip to Phase 3 and proceed with the Pro installation.
 
 ---
 
@@ -68,9 +71,11 @@ If you already have a Windows 11 USB, proceed to Step 2.
 4. Look for the folder called `sources` – go inside it
 
 !!! note "Cannot Find sources Folder?"
-    If you don't see a `sources` folder at the root of the USB, your USB media might not be set up correctly. Try creating the media again using Microsoft's Media Creation Tool.
+    If you don't see a `sources` fol (Home Edition Only)
 
-### Step 3: Create the `ei.cfg` File
+**Skip this section if you're using Pro edition. Proceed to Phase 3.**
+
+If you're installing Home edition, t## Step 3: Create the `ei.cfg` File
 
 This special file tells the Windows installer: "Install Home edition, not Pro."
 
@@ -103,7 +108,10 @@ If you prefer not to create the file manually, you can download a ready-made `ei
 [📥 Download ei.cfg](assets/downloads/ei.cfg){: .md-button }
 
 Simply:
-1. Download the file above
+1. Download the file ab
+
+!!! note "Pro Edition Users"
+    If you're installing Pro edition, you don't need this file. You can delete any `ei.cfg` file that might already be on the USB, and proceed directly to Phase 3.ove
 2. Copy it to the `sources` folder on your USB
 3. Skip to Step 4 below
 
@@ -137,15 +145,18 @@ If you downloaded it (Option B):
 
 !!! tip "Keep This USB Safe"
     This USB is now customized for your device. Keep it somewhere safe – you'll use it in Phase 3 to install Windows.
+**If you created an `ei.cfg` file (Home edition path):**
+- The Windows installer will detect the `ei.cfg` file
+- It will automatically select Home edition (instead of asking which version to install)
+- Windows 11 Home will install without auto-upgrading to Pro
 
----
+**If you didn't create `ei.cfg` (Pro edition path):**
+- The Windows installer will proceed normally
+- You'll choose Pro edition when prompted
+- Continue to Phase 3
 
-## What Happens Next
-
-When you boot from this USB in Phase 3, the Windows installer will:
-1. Detect the `ei.cfg` file
-2. Automatically select Home edition (instead of asking which version to install)
-3. Install Windows 11 Home, blocking any automatic upgrade to Pro
+!!! note "Why This Matters"
+    Whether you use Home or Pro, the key is a clean installation done offline. The `ei.cfg` technique simply saves Home users from the risk of Windows auto-upgrading to Pro during installation. All subsequent phases (4–7) work regardless of which edition you choose.
 
 This is the key that prevents Autopilot from re-enrolling your device automatically.
 

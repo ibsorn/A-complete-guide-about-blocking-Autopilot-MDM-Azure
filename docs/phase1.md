@@ -17,7 +17,7 @@ In this phase, we'll:
 **Risk level:** Low (you haven't touched Windows yet)
 
 !!! warning "Critical Step"
-    Do NOT skip the TPM reset. Without it, Windows will try to re-enroll the device in the corporate domain even if you install Home edition. This is the most important step in Phase 1.
+    Do NOT skip the TPM reset. Without it, Windows will try to re-enroll the device in the corporate domain. Clearing the TPM is essential regardless of which Windows edition you choose. This is the most important step in Phase 1.
 
 ---
 

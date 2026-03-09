@@ -234,16 +234,16 @@ Remove-Item -Path "$env:ProgramData\AutopilotBlock" -Recurse -Force
 | Phase | Defense Layer | Mechanism |
 |-------|---------------|-----------|
 | 1 | Hardware Isolation | TPM cleared, Computrace disabled |
-| 2 | Installation Enforcement | Windows 11 Home forced at install time |
+| 2 | Edition Selection | Windows 11 edition choice (Home recommended), offline preparation |
 | 3 | Clean Installation | Fresh OS, offline setup, no enrollment |
-| 4 | Licensing Lock | Pro keys purged, Home edition permanent |
+| 4 | Licensing Lock | Corporate keys purged, edition locked down |
 | 5 | Service Isolation | MDM services disabled at OS level |
 | 6 | DNS Blocking | Enrollment domains blocked at network layer |
-| 7 | User Account Control | Personal account, policy refusal |
-| 8 | Application Blocking | MDM executables blocked at firewall |
-| 8 | Automatic Restoration | Hosts file continuously monitored and restored |
+| 7 | Application Blocking | MDM executables blocked at firewall |
+| 8 | Automatic Restoration | Hosts file continuously monitored and restored (optional) |
+| 9 | Account Control | Personal account, policy refusal, Windows Hello security |
 
-**This 9-layer defense stack is enterprise-grade security.** Even a determined attacker would need to bypass all nine layers, most of which operate independently and have no single point of failure.
+**This 9-layer defense stack is enterprise-grade security (with Phase 8 being optional).** Even a determined attacker would need to bypass all independent layers, most of which operate at different system levels and have no single point of failure.
 
 ---
 

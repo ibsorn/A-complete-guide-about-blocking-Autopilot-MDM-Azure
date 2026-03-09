@@ -41,9 +41,9 @@ The process is divided into **nine phases**, each building on the previous one. 
 | Phase | What Happens | Time | Required |
 |-------|--------------|------|----------|
 | **1** | [Deep Hardware Cleanup](phase1.md) – Clear BIOS tracking | 5–10 min | ✅ Yes |
-| **2** | [USB Preparation](phase2.md) – Force Windows 11 Home edition | 5 min | ✅ Yes |
+| **2** | [Edition Selection](phase2.md) – Choose Windows 11 edition (Home recommended) | 5 min | ✅ Yes |
 | **3** | [Clean Installation](phase3.md) – Fresh Windows install offline | 20–30 min | ✅ Yes |
-| **4** | [Key Purging](phase4.md) – Lock in Home edition | 5 min | ✅ Yes |
+| **4** | [Key Purging](phase4.md) – Remove corporate licenses, lock edition | 5 min | ✅ Yes |
 | **5** | [Telemetry & MDM Kill](phase5.md) – Disable tracking services | 5 min | ✅ Yes |
 | **6** | [Hosts File Block](phase6.md) – Block Microsoft domains | 5 min | ✅ Yes |
 | **7** | [Firewall Blocking](phase7.md) – Block MDM processes at firewall | 5 min | ✅ Yes |
@@ -53,14 +53,14 @@ The process is divided into **nine phases**, each building on the previous one. 
 **Total time: ~1–2 hours** (including 30 min for Windows installation)
 
 !!! warning "Critical: Internet Until Phase 9"
-    All phases 1-8 must be completed **while disconnected from the internet** or via your bootable USB. Only after all 8 protective layers are active is it safe to connect the network cable and proceed to Phase 9. This is not optional – it is the core principle of this guide's security model.
+    All phases 1-8 must be completed **while disconnected from the internet** or via your bootable USB. Only after all 8 protective layers are active is it safe to connect the network cable and proceed to Phase 9. This principle applies regardless of which Windows edition you chose in Phase 2.
 
 ## Navigate to Each Phase
 
 1. [Phase 1 - BIOS/Hardware Cleanup](phase1.md)
-2. [Phase 2 - Windows 11 Home Installer](phase2.md)
+2. [Phase 2 - Edition Selection (Home Recommended)](phase2.md)
 3. [Phase 3 - Clean Offline Installation](phase3.md)
-4. [Phase 4 - Edition Lock & License Purge](phase4.md)
+4. [Phase 4 - License Purge & Protection](phase4.md)
 5. [Phase 5 - Disable MDM Services](phase5.md)
 6. [Phase 6 - Block Enrollment Servers](phase6.md)
 7. [Phase 7 - Firewall Process Blocking](phase7.md)

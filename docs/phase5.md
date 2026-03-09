@@ -9,8 +9,8 @@ keywords: MDM, telemetry, Windows services, dmwappushservice, DiagTrack, Azure A
 
 By now, you have:
 - ✅ Cleared BIOS tracking
-- ✅ Installed Home edition
-- ✅ Locked in Home edition permanently
+- ✅ Installed your chosen Windows edition
+- ✅ Locked down the OS against corporate updates
 
 But Windows still has services and control mechanisms designed to enable remote management. In this phase, we'll **disable the services and registry keys that allow MDM (Mobile Device Management) and corporate tracking** to function.
 
@@ -183,8 +183,7 @@ If they say "Running," you didn't disable them correctly. Try again.
 
 Your device now has:
 - ✅ TPM cleared (BIOS level)
-- ✅ Home edition locked in (OS level)
-- ✅ Pro license keys deleted (OS level)
+- ✅ Edition locked down and corporate keys removed (OS level)
 - ✅ OS upgrades blocked (registry level)
 - ✅ MDM services killed (services level)
 - ✅ Azure AD enrollment blocked (registry level)

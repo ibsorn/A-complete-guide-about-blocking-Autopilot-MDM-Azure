@@ -7,25 +7,30 @@ keywords: license key, Home edition, registry policy, preinstalled retail key, u
 
 ## Overview
 
-Even though you installed Home edition (or another Windows version), your device's motherboard still contains a **Preinstalled Retail Key (PRK)** – a Pro license engraved in the firmware. If Windows ever connects to Microsoft servers, it will automatically detect this key and "upgrade" your OS, bringing Autopilot re-enrollment with it.
+Your device's motherboard contains a **Preinstalled Retail Key (PRK)** – a Pro license engraved in the firmware. If Windows ever connects to Microsoft servers, it will automatically detect this key.
 
 ### Why This Phase Matters
 
-**If you installed Home Edition (Phase 2):**
-- This phase locks in Home edition and prevents any automatic upgrade to Pro
-- Essential for keeping Autopilot disabled at the OS level
+The goal of Phase 4 is to **prevent Windows from using the corporate PRK (Preinstalled Retail Key) embedded in your device's firmware**. This prevents:
+- Automatic re-activation with the corporate license
+- Forced edition upgrades (especially back to Pro if you're on Home)
+- Policy-based re-enrollment triggered by license detection
 
-**If you installed a different Windows version or modified Windows 11:**
-- This phase is still highly recommended if your BIOS contains a PRK (which most corporate devices do)
-- Allows you to use a different product key (not associated with corporate control)
-- Provides registry-level protection against forced upgrades
+**If you installed Home Edition:**
+- Installing a generic Home key prevents Windows from detecting and upgrading to Pro
+- Blocks any attempt to apply the corporate Pro license from the motherboard
+
+**If you installed Pro Edition:**
+- Installing a generic Pro key replaces the corporate license
+- Prevents Windows from using the corporate key even if it detects it
+- Blocks policy-based forced upgrades or re-enrollment based on the corporate license
 
 ### What You'll Do
 
 In this phase, you'll:
 1. **Delete the corporate PRK** from Windows registry
 2. **Remove any preloaded enterprise keys** that might trigger automatic upgrades
-3. **Install a Home Edition generic key** (if using Home) or your own key (if using a different version)
+3. **Install a generic key** (Home key if you installed Home, or skip if you installed Pro with your own key)
 4. **Block Windows from attempting OS upgrades** at the registry level
 
 **Time required:** 5 minutes  
@@ -112,9 +117,11 @@ Some corporate devices have pre-installation keys for Pro edition. Let's remove 
 !!! note "Even If No Key Was Found"
     This command is safe to run even if there's no pre-installed key. It will simply report that there was nothing to uninstall.
 
-### Step 4: Install the Home Edition Generic Key
+### Step 4: Install a Generic Key
 
-Now we'll install an official Microsoft generic key for Home edition, locking it in:
+Now install an official Microsoft generic key for your edition:
+
+**If you installed Home Edition:**
 
 1. **Type exactly:**
    ```
@@ -125,8 +132,19 @@ Now we'll install an official Microsoft generic key for Home edition, locking it
 3. A dialog box will say **"The product key was successfully installed."** or **"Installed a product key."**
 4. Click **OK**
 
-!!! success "Home Edition is Locked In"
-    This generic key is a real, Microsoft-provided key for Home edition. It's freely distributed and publicly available. By installing it, you're telling Windows: "This is definitely Home edition."
+**If you installed Pro Edition:**
+
+1. **Type exactly:**
+   ```
+   slmgr.vbs /ipk VK7JG-NPHTM-C97JM-9MPGT-3V66T
+   ```
+
+2. **Press Enter**editions. **Microsoft uses two separate mechanism
+3. A dialog box will say **"The product key was successfully installed."** or **"Installed a product key."**
+4. Click **OK**
+
+!!! note "About This Generic Key"
+    This generic key is **not a permanent activation key** – it's temporary and will expire. After completing all 9 phases, you'll need to purchase a genuine Windows 11 key for permanent activation, but for now it replaces the corporate license and prevents Windows from using the embedded PRK.
 
 ### Step 5: Block Forced OS Upgrades (Two Registry Locations)
 
@@ -187,20 +205,13 @@ The Registry Editor window will open.
 2. You can restart now, or proceed to Phase 5
 
 !!! success "Phase 4 Complete"
-    Your Home edition is now locked in place. Windows cannot recover the Pro license, and it cannot be forced to Pro edition. You're one step closer to freedom.
+    Your device is now locked down and corporate PRK keys are removed. Whether you chose Home or Pro, Windows cannot use the corporate license keys and cannot be forced into corporate enrollment. You're one step closer to freedom.
 
 ---
 
-## ⚠️ Important: About the Generic Key (Read This)
+## About License Keys
 
-The product key you installed (`YTMG3-N6DKC-DKB77-7M9GH-8HVX7`) is **generic and temporary, It does NOT permanently activate Windows**.
-
-**Eventually**, you'll want a proper Windows 11 Home license key. Your options:
-
-The generic key does its job for now: it locks your device to Home edition and keeps Autopilot dead. You can always upgrade to a genuine key whenever you're ready.
-
-!!! tip "Timing"
-    Don't worry about this during the main 7 phases. Get the device completely unlocked first, verify it works, then decide if you want to invest in a genuine activation key.
+The generic keys used in Step 4 are **Microsoft-provided temporary keys** that are freely distributed. They serve one purpose: **prevent Windows from detecting and using the corporate PRK**. After completing all 9 phases and verifying your system works correctly, you should purchase a genuine Windows 11 license key for permanent activation.
 
 ---
 

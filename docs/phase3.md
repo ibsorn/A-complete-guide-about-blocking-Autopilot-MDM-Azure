@@ -7,7 +7,7 @@ keywords: Windows installation, offline installation, BypassNRO, clean install, 
 
 ## Overview
 
-Now it's time to perform a **completely clean Windows 11 installation**. This erases all existing Windows, all corporate tracking, and all enrollment data. You'll install Home edition (thanks to the `ei.cfg` file from Phase 2) while completely bypassing Microsoft account creation and online enrollment checks.
+Now it's time to perform a **completely clean Windows 11 installation**. This erases all existing Windows, all corporate tracking, and all enrollment data. You'll install your chosen Windows edition (Home or Pro) while completely bypassing Microsoft account creation and online enrollment checks.
 
 The key technique is the **BypassNRO** command, which removes network requirements from Windows setup.
 
@@ -67,7 +67,7 @@ Before you do anything else:
 Windows will now begin installing. This takes 10–20 minutes.
 
 !!! success "Installation in Progress"
-    Windows is being installed on a completely clean disk. No corporate data, no Autopilot records, no tracking software. Just vanilla Windows 11 Home.
+    Windows is being installed on a completely clean disk. No corporate data, no Autopilot records, no tracking software. Just vanilla Windows 11 (Home or Pro, depending on your choice).
 
 ### Step 5: Bypass Network Requirements with BypassNRO
 
@@ -102,7 +102,7 @@ After restart, Windows will show setup screens again:
 9. Click **Finish** when you reach the desktop
 
 !!! success "Phase 3 Complete"
-    You now have a completely clean Windows 11 Home installation on a fresh, completely offline system. No accounts are signed in, no enrollment data exists, and corporate fingerprints are gone. Your device thinks it's a brand-new consumer laptop.
+    You now have a completely clean Windows 11 installation (Home or Pro) on a fresh, completely offline system. No accounts are signed in, no enrollment data exists, and corporate fingerprints are gone. Your device now thinks it's a brand-new personal computer.
 
 ---
 

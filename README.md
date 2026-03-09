@@ -27,9 +27,9 @@ This guide breaks all three locks in sequence. By the end, you have a genuinely 
 ## What You'll Accomplish
 
 - **Phase 1:** Erase the hardware ID from your BIOS (TPM wipe, Computrace removal, etc.)
-- **Phase 2:** Prepare a Windows 11 installer that forces Home edition
-- **Phase 3:** Do a completely offline clean install  
-- **Phase 4:** Lock Windows to Home edition so it can't auto-upgrade
+- **Phase 2:** Choose your Windows edition (Home recommended, Pro also works) and prepare installation media
+- **Phase 3:** Do a completely offline clean install with your chosen edition
+- **Phase 4:** Remove corporate license keys and lock down the OS to prevent upgrades or corporate re-enrollment
 - **Phase 5:** Disable all the MDM background services
 - **Phase 6:** Block the Microsoft servers that handle enrollment (at the OS level)
 - **Phase 7:** Block MDM executables at the Windows Firewall level
