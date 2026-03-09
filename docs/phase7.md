@@ -17,7 +17,7 @@ Think of it as two-layered defense:
 Even if Microsoft changes their server IPs, embeds new addresses directly in code, or finds a way around your hosts file, the Windows Firewall will **prevent the application itself from reaching the internet**.
 
 **Time required:** 5 minutes  
-**Status:** Device is already connected to internet (from Phase 6)
+**Status:** Device is still offline – connection to internet happens in Phase 9
 
 !!! warning "Why Two Layers?"
     This is **defense-in-depth** thinking. A single layer can be bypassed. Two independent layers, working at different levels (DNS + Application), are exponentially harder to circumvent. If the firewall rules are removed, the hosts file still protects you. If the hosts file is deleted, the firewall still stops outbound connections.

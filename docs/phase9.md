@@ -166,7 +166,7 @@ After completing the setup:
 - Check that your hosts file is protected and read-only (Phase 6)
 - Verify that `dmwappushservice` is stopped and disabled (Phase 5)
 
-!!! success "Phase 7 Complete – You're Done!"
+!!! success "Phase 9 Complete – You're Done!"
     Your device is now a consumer computer under your control, even though it was legally owned by a corporation. You can use work apps and be productive, but no one can remotely manage, lock, or control your device. **Congratulations – your device is free!**
 
 ---
@@ -194,7 +194,6 @@ Only now is it safe to connect to the internet.
 | 4 | Pro license purged, Home locked, upgrades blocked | Registry/Licensing |
 | 5 | MDM services killed, Azure AD blocked | OS Services |
 | 6 | Enrollment servers blocked | Network/Hosts File |
-| 7 | Personal account, Windows Hello, device management refused | User Account |
 | 7 | MDM executables blocked at firewall | Application/Firewall |
 | 8 | Hosts file monitored and auto-restored (optional) | Continuous Restoration |
 | 9 | Personal account, Windows Hello, internet connection | Final Safe Account Setup |

@@ -16,7 +16,7 @@ We'll then protect the hosts file from being reset by:
 - Making it read-only
 
 **Time required:** 5-10 minutes  
-**Special consideration:** We're still offline, and staying that way until Phase 7
+**Special consideration:** We're still offline, and staying that way until Phase 9
 
 !!! note "Why 0.0.0.0?"
     The special address `0.0.0.0` is a non-routable address that means "send this nowhere." It's used specifically for blocking domains without needing to know the "fake" IP address.

@@ -18,7 +18,7 @@ The key technique is the **BypassNRO** command, which removes network requiremen
 - The device you're unlocking
 
 !!! danger "Keep the Device Offline During This Phase"
-    If your device connects to the internet during setup, it will attempt to re-enroll in Autopilot. Keep WiFi and Ethernet both disconnected until Phase 7. This is critical.
+    If your device connects to the internet during setup, it will attempt to re-enroll in Autopilot. Keep WiFi and Ethernet both disconnected until Phase 9. This is critical.
 
 ---
 
@@ -97,7 +97,7 @@ After restart, Windows will show setup screens again:
 4. Click **Continue with limited setup**
 5. Create a **local user account** (give it any name you like, e.g., `Admin` or `LocalUser`)
 6. **Press Next** and proceed through any remaining setup screens
-7. **Skip Microsoft account sign-in** – you'll add your personal account later in Phase 7
+7. **Skip Microsoft account sign-in** – you'll add your personal account later in Phase 9
 8. Configure privacy settings (you can turn everything off if you want)
 9. Click **Finish** when you reach the desktop
 

@@ -274,7 +274,7 @@ We recommend **keeping all defenses from Phases 1-9 active permanently:**
 
 - **No performance penalty** – all defenses are passive or scheduled
 - **Maximum protection** – defense-in-depth means losing one layer still leaves eight
-- **Automatic operation** – Phase 9 runs invisibly; you never have to touch it
+- **Automatic operation** – Phase 8 runs invisibly; you never have to touch it
 - **Insurance policy** – the cost of maintenance is zero; the benefit is priceless
 
 Your device is now a **secure personal computer** that refuses corporate control, even in the face of aggressive Windows updates and enrollment systems.

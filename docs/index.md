@@ -34,7 +34,7 @@ If you've purchased a used corporate laptop or inherited a company device, these
 
 ## How This Guide Works
 
-The process is divided into **nine phases**, each building on the previous one. The first 7 phases are mandatory and comprehensive. Phases 8-9 add optional defense-in-depth layers. Start with Phase 1 and proceed in order. **Internet connection is restored only in Phase 9**, after all 8 protective layers are active.
+The process is divided into **nine phases**, each building on the previous one. Phases 1-7 are mandatory and comprehensive. Phase 8 adds optional automated protection. Phase 9 is the final connection and account setup step. Start with Phase 1 and proceed in order. **Internet connection is restored only in Phase 9**, after all defensive layers are active.
 
 ### Quick Overview
 
@@ -57,15 +57,15 @@ The process is divided into **nine phases**, each building on the previous one. 
 
 ## Navigate to Each Phase
 
-1. [Phase 1 - Deep Hardware Cleanup](phase1.md)
-2. [Phase 2 - USB Preparation (force Windows 11 Home)](phase2.md)
-3. [Phase 3 - Clean Installation and Network Bypass](phase3.md)
-4. [Phase 4 - Key Purging and Version Lock](phase4.md)
-5. [Phase 5 - Telemetry and MDM Module Deactivation](phase5.md)
-6. [Phase 6 - Server Blocking in the Hosts File](phase6.md)
-7. [Phase 7 - Application-Level Firewall Blocking](phase7.md)
-8. [Phase 8 - Hosts File Watchdog (Optional)](phase8.md)
-9. [Phase 9 - Final Connection to Internet and Safe Account Setup](phase9.md)
+1. [Phase 1 - BIOS/Hardware Cleanup](phase1.md)
+2. [Phase 2 - Windows 11 Home Installer](phase2.md)
+3. [Phase 3 - Clean Offline Installation](phase3.md)
+4. [Phase 4 - Edition Lock & License Purge](phase4.md)
+5. [Phase 5 - Disable MDM Services](phase5.md)
+6. [Phase 6 - Block Enrollment Servers](phase6.md)
+7. [Phase 7 - Firewall Process Blocking](phase7.md)
+8. [Phase 8 - Hosts Watchdog Auto-Restore (Optional)](phase8.md)
+9. [Phase 9 - Internet Connection & Account Setup](phase9.md)
 
 !!! tip "Pro Tip"
     Take screenshots of each major step. If something goes wrong, these help you troubleshoot or remember where you left off.

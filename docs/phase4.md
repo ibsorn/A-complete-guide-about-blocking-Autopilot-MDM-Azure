@@ -32,7 +32,7 @@ In this phase, you'll:
 **Important:** Stay offline during this entire phase
 
 !!! warning "Still Offline"
-    Do NOT connect to the internet yet. You're still "immunizing" the device against corporate control. We'll connect in Phase 7 once defenses are fully in place.
+    Do NOT connect to the internet yet. You're still "immunizing" the device against corporate control. We'll connect in Phase 9 once defenses are fully in place.
 
 !!! info "About Preinstalled Retail Keys (PRKs)"
     Corporate manufacturers embed Pro/Enterprise licenses directly in the motherboard's BIOS/UEFI. These are called **Preinstalled Retail Keys (PRKs)**. They're designed to automatically "activate" the correct Windows edition when Windows detects them. By purging them from the OS registry, we prevent Windows from ever using them.

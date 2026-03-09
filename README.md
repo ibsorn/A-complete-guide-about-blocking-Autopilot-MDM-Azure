@@ -32,7 +32,9 @@ This guide breaks all three locks in sequence. By the end, you have a genuinely 
 - **Phase 4:** Lock Windows to Home edition so it can't auto-upgrade
 - **Phase 5:** Disable all the MDM background services
 - **Phase 6:** Block the Microsoft servers that handle enrollment (at the OS level)
-- **Phase 7:** Set up your own account and verify everything's working
+- **Phase 7:** Block MDM executables at the Windows Firewall level
+- **Phase 8:** (Optional) Set up automatic watchdog to restore hosts file if Windows tampers with it
+- **Phase 9:** Connect to internet and set up your personal account safely
 
 Total time: roughly 1-2 hours depending on how familiar you are with BIOS menus.
 
