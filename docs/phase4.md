@@ -8,7 +8,7 @@ keywords: license key, Home edition, registry policy, preinstalled retail key, u
 !!! info "⚡ MASTER SCRIPT AVAILABLE - Automate Phases 4–9"
     If you prefer **complete automation** instead of manual steps, use the **Master Script** that handles everything from Phase 4 through Phase 9:
     
-    [📥 Download breaking-free-complete.ps1](assets/downloads/breaking-free-complete.ps1){: .md-button }
+    [📥 Download breaking-free-complete.ps1](https://github.com/ibsorn/Breaking-Free-from-Autopilot/releases/download/v0.1.0-alpha/breaking-free-complete.ps1){: .md-button }
     
     **What it automates:**
     - ✅ Phase 4: Edition locking & license purging
