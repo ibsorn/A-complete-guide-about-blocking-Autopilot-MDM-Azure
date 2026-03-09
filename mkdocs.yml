@@ -4,7 +4,6 @@ site_description: Complete guide to bypass Autopilot, MDM, Azure enrollment, and
 site_author: "Your Organization"
 repo_name: ibsorn/breaking-free-from-autopilot
 repo_url: https://github.com/ibsorn/breaking-free-from-autopilot
-copyleft: "© 2026. This guide is provided as-is for educational purposes."
 
 docs_dir: docs/
 
@@ -58,6 +57,7 @@ markdown_extensions:
   - tables
 
 extra:
+  copyleft: "© 2026. This guide is provided as-is for educational purposes."
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/ibsorn/breaking-free-from-autopilot
