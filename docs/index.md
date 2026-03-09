@@ -53,7 +53,7 @@ The process is divided into **nine phases**, each building on the previous one. 
 **Total time: ~1–2 hours** (including 30 min for Windows installation)
 
 !!! warning "Critical: Internet Until Phase 9"
-    All phases 1-8 must be completed **while disconnected from the internet** or via your bootable USB. Only after all 8 protective layers are active is it safe to connect the network cable and proceed to Phase 9. This principle applies regardless of which Windows edition you chose in Phase 2.
+    All phases 1-8 must be completed **while disconnected from the internet**. Only after all 8 protective layers are active is it safe to connect the network cable and proceed to Phase 9. This principle applies regardless of which Windows edition you chose in Phase 2.
 
 ## Navigate to Each Phase
 

@@ -48,10 +48,8 @@ In this phase, you'll:
 
 If you prefer to **automate all of Phase 4**, you can use a PowerShell script that will execute all the recommended commands:
 
-!!! warning "Home Edition Only"
-    This script is designed for **Windows 11 Home edition only**. If you installed Pro edition, follow the manual steps below instead or modify the script, as you'll need to use the Pro license key instead of the Home key.
 
-[📥 Download phase4-lock-home-edition.ps1](assets/downloads/phase4-lock-home-edition.ps1){: .md-button }
+[📥 Download phase4-lock-edition.ps1](assets/downloads/phase4-lock-edition.ps1){: .md-button }
 
 **To use the script (Home Edition users):**
 
