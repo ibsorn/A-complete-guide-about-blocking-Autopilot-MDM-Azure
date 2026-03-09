@@ -63,18 +63,3 @@ The process is divided into **nine phases**, each building on the previous one. 
 
 !!! warning "Critical: Internet Until Phase 9"
     All phases 1-8 must be completed **while disconnected from the internet**. Only after all 8 protective layers are active is it safe to connect the network cable and proceed to Phase 9. This principle applies regardless of which Windows edition you chose in Phase 2.
-
-## Navigate to Each Phase
-
-1. [Phase 1 - BIOS/Hardware Cleanup](phase1.md)
-2. [Phase 2 - Edition Selection (Home Recommended)](phase2.md)
-3. [Phase 3 - Clean Offline Installation](phase3.md)
-4. [Phase 4 - License Purge & Protection](phase4.md)
-5. [Phase 5 - Disable MDM Services](phase5.md)
-6. [Phase 6 - Block Enrollment Servers](phase6.md)
-7. [Phase 7 - Firewall Process Blocking](phase7.md)
-8. [Phase 8 - Hosts Watchdog Auto-Restore (Optional)](phase8.md)
-9. [Phase 9 - Internet Connection & Account Setup](phase9.md)
-
-!!! tip "Pro Tip"
-    Take screenshots of each major step. If something goes wrong, these help you troubleshoot or remember where you left off.
