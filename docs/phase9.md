@@ -1,283 +1,202 @@
 ---
-description: Phase 9 - Hosts file watchdog automation. Create a scheduled task that automatically restores the hosts file blocking entries if Windows reverts them during updates, ensuring persistent MDM/Autopilot blocking.
-keywords: hosts watchdog, scheduled task, automatic restoration, hosts file protection, persistent blocking, Windows updates
+description: Phase 9 - Final connection to internet and safe account setup. After 8 layers of hardware, licensing, and network protection, connect to internet, create personal Microsoft account, and configure Windows Hello as the final step.
+keywords: internet connection, account setup, Windows Hello, verification, security checks, final configuration, safe use
 ---
 
-# Phase 9: Hosts File Watchdog (Optional but Recommended)
+# Phase 9: Final Connection to Internet and Safe Account Setup
 
 ## Overview
 
-You've hardened your device with eight layers of defense. But Windows is persistent. During major updates or security patches, Windows might detect the hosts file modifications as "suspicious" and automatically restore it to default – which would nullify your Phase 6 blocking.
+You've made it! Your device is now:
+- ✅ Free from BIOS-level tracking
+- ✅ Locked to Home edition
+- ✅ Enrollment services disabled
+- ✅ Enrollment servers blocked
 
-Phase 9 adds an **automatic watchdog** that continuously monitors your hosts file. If Windows or any process removes your blocking entries, the watchdog automatically restores them within minutes. It's like having a security guard that patrols your hosts file 24/7.
+Now it's time to:
+1. **Connect to the internet** (finally!)
+2. **Set up your personal Microsoft account**
+3. **Learn the ONE critical rule** to prevent corporate takeover
+4. **Configure Windows Hello** for security
 
-!!! note "What is a Watchdog?"
-    A watchdog is a background process that monitors critical files and automatically repairs them if they're damaged or altered. In this case, it watches for deleted or modified blocking entries and restores them automatically.
+**Time required:** 5-10 minutes
 
-**Time required:** 5 minutes  
-**Status:** Device already hardened from Phases 1-8
-
-!!! warning "Why Phase 9 Might Be Necessary"
-    - Windows 11 updates sometimes "repair" the hosts file if it detects anomalies
-    - Antivirus software might see the hosts file entries as "blocking legitimate Microsoft services"
-    - If you reinstall a Windows Update that includes device management components, it might try to restore the hosts file
-    - Phase 9 is insurance against these scenarios
+!!! success "All 8 Layers of Defense Are Active"
+    From this point on, it's safe to connect to the internet. Your device has 8 independent defensive layers protecting it from Autopilot and MDM enrollment. Only after these defenses are in place should you connect to the network.
 
 ---
 
-## How the Watchdog Works
+## Step-by-Step Instructions
 
-The watchdog script:
+### Step 1: Connect to the Internet (NOW Safe)
 
-1. **Runs every hour** (automatically, invisible in background)
-2. **Checks if your 9 blocking entries exist** in the hosts file
-3. **If any are missing:**
-   - Instantly restores them
-   - Logs the restoration event with timestamp
-   - Re-applies read-only protection
-4. **If all entries are intact:** Does nothing (no log entry, zero resource usage)
+Now that all your defenses are in place – and ONLY when all 8 previous phases are complete:
 
-The entire process takes **less than 100ms** and consumes negligible CPU/memory.
+1. **Plug in the Ethernet cable**, OR
+2. **Re-enable WiFi:**
+   - If you use a WiFi kill switch, toggle it back on
+   - Or go to **Settings > Network > WiFi** and turn it on
+   - Or restart the WiFi router if you disabled it earlier
 
-### The 9 Entries Monitored
+Your device will now connect to the internet. Windows might check for updates and show notifications – this is normal.
 
-The watchdog monitors these exact entries:
+!!! note "Updates Are Safe Now"
+    Windows will try to download updates. This is fine – your device can't be re-enrolled in Autopilot anymore. Updates will make your device more secure, not less.
+
+### Step 2: Sign In with Your Personal Microsoft Account
+
+This is when you claim the device as your own:
+
+1. Click **Start menu**
+2. Go to **Settings > Accounts > Your info**
+3. Look for **"Sign in with a Microsoft account instead"** (or similar)
+4. Click it
+5. Enter your **personal Microsoft account** (your Outlook, Hotmail, Xbox, or any Microsoft email address)
+6. If you don't have one, click **"Create a new account"** to make one
+7. Follow the setup steps
+
+!!! tip "Personal Account, Not Work Account"
+    Use your personal Microsoft account (like your Gmail-forwarded-to-Outlook, or your personal Outlook address). Do NOT use any work email address, even if you have a personal Microsoft account created with a work email. That can trigger the "Allow my organization to manage this device" dialog.
+
+### Step 3: Set Up Windows Hello Security
+
+Windows Hello (biometric or PIN login) adds an extra layer of security:
+
+1. Still in **Settings > Accounts > Your info**, find **"Sign-in options"** in the left sidebar
+2. Under Windows Hello, you'll see options for:
+   - **Face Recognition** (if your device has a camera)
+   - **Fingerprint** (if your device has a fingerprint reader)
+   - **PIN**
+
+3. Click on one (even just a PIN is good) and set it up
+4. This creates a second layer of authentication that even Windows doesn't fully control
+
+!!! success "Two Factors is Better"
+    Setting up Windows Hello PIN or biometric makes your device even more secure. You own the biometric or PIN – not Microsoft, not the corporation.
+
+---
+
+## The CRITICAL Rule: Never Allow Device Management
+
+### What to Watch For
+
+At some point, you might see a dialog like:
+
+**"Allow your organization to manage your device?"**
+
+Or:
+
+**"Your organization is asking to manage your device"**
+
+Or:
+
+**"Allow IT admin to manage this device"**
+
+!!! danger "CRITICAL - READ THIS"
+    **NEVER click "Yes" or "Agree."**
+    
+    Even if the dialog seems official or important, even if it claims your organization "requires" it, **ALWAYS:**
+    1. **UNCHECK the box** if there is one
+    2. **Click "No" or "Don't allow"**
+    3. Click **"No, sign in only to this app"** if that option appears
+
+### When Does This Happen?
+
+This dialog appears when you try to sign into:
+- **Microsoft Teams** (work version)
+- **Office 365** or **Microsoft 365**
+- **Outlook** (work version)
+- **SharePoint** or **OneDrive** (corporate)
+
+!!! warning "You Can Still Use These Apps"
+    You CAN still use Teams, Office, Outlook, etc. with your work account. Just refuse device management, and you get the apps without the device enrollment. Your organization gets your productivity tools, but not control of your device.
+
+### Example Scenario
 
 ```
-0.0.0.0 ztd.desktop.microsoft.com
-0.0.0.0 cs.dds.microsoft.com
-0.0.0.0 enterpriseregistration.windows.net
-0.0.0.0 enrollment.manage.microsoft.com
-0.0.0.0 api.intune.microsoft.com
-0.0.0.0 portal.manage.microsoft.com
-0.0.0.0 dsirnpus.microsoft.com
-0.0.0.0 dc.services.visualstudio.com
-0.0.0.0 management.azure.com
+You open Microsoft Teams to chat with coworkers.
+A dialog appears: "Allow your organization to manage your device?"
+
+WRONG: Click "Yes" ❌
+RIGHT: Uncheck the box and click "No, sign in only to this app" ✅
+
+Result: Teams works, but your device stays yours.
 ```
 
----
-
-## Automated Installation
-
-The script automatically:
-
-1. Creates a hidden directory: `C:\ProgramData\AutopilotBlock`
-2. Installs a PowerShell watchdog script
-3. Creates a Windows Scheduled Task that runs every hour
-4. Runs with **NT AUTHORITY\SYSTEM** (highest privilege, language-independent)
-5. Operates silently in background with zero user interaction
-
-[📥 Download phase9-hosts-watchdog.ps1](assets/downloads/phase9-hosts-watchdog.ps1){: .md-button }
-
-**To install the watchdog:**
-
-1. Download the file above
-2. Right-click on it and select **Properties**
-3. Check the **"Unblock"** checkbox at the bottom and click **OK**
-4. Right-click on the script file and select **Run with PowerShell**
-5. Click **"Yes"** when Windows asks for Administrator permission (UAC dialog)
-6. The watchdog is now installed and will monitor your hosts file continuously
-
-!!! success "Installation Complete"
-    The watchdog is now running. You'll never see it (it runs silently every hour), but if Windows ever removes your blocking entries, they'll be automatically restored within 60 minutes.
+!!! success "Using Work Apps Without Giving Up Your Device"
+    This is the balance: you can be productive with corporate tools, but your device remains under your control, not corporate control.
 
 ---
 
-## How to Verify the Watchdog is Working
+## Your Device is Now Ready
 
-### Check if the Scheduled Task Exists
+After completing the setup:
 
-1. Press **Windows + R**
-2. Type `taskschd.msc` and press **Enter**
-3. Navigate to: **Task Scheduler Library**
-4. Search for: `Autopilot-Hosts-Watchdog`
-5. If you see it listed with **Status: Running**, the watchdog is active
-
-### Check the Watchdog Log
-
-The watchdog keeps a log of all restoration events:
-
-1. Press **Windows + R**
-2. Type `%ProgramData%\AutopilotBlock` and press **Enter**
-3. Look for: `watchdog.log`
-4. If the log is empty, your hosts file hasn't been tampered with (good!)
-5. If there are entries with timestamps, those are times Windows tried to restore the hosts file and the watchdog restored your blocking entries
-
-Example log entry:
-```
-2026-03-09 14:37:22 - ALERT: Hosts file modified. Restored entries: enterpriseregistration.windows.net, enrollment.manage.microsoft.com
-```
+- ✅ All corporate tracking is disabled
+- ✅ All corporate enrollment is blocked
+- ✅ Your personal account is in control
+- ✅ Windows Hello adds extra security
+- ✅ You can use work apps without giving up device control
 
 ---
 
-## Manual Scheduled Task Creation (If Needed)
+## Long-Term Security Tips
 
-If you prefer to create the task manually instead of using the script:
+### Keep These Practices
 
-### Step 1: Create the Watchdog Script Manually
+1. **Regularly update Windows** – this keeps your device secure against new exploits
+2. **Use your Windows Hello PIN/biometric** – always sign in securely
+3. **Keep backups** – if something goes wrong, you can restore
+4. **Monitor device management** – go to **Settings > Accounts** and verify no organization is managing your device
+5. **Never accept "device management" requests** – the one critical rule
 
-1. Press **Windows + R**
-2. Type `notepad` and press **Enter**
-3. Copy the following code:
+### What If?
 
-```powershell
-$hostsPath = "$env:windir\System32\drivers\etc\hosts"
-$logPath = "$env:ProgramData\AutopilotBlock\watchdog.log"
+**"I accidentally clicked Yes to device management"**
+- Go to **Settings > Accounts > Access work or school**
+- If your work account is listed, click on it and select **Disconnect**
+- Your device is free again
 
-$requiredEntries = @(
-    "ztd.desktop.microsoft.com", "cs.dds.microsoft.com",
-    "enterpriseregistration.windows.net", "enrollment.manage.microsoft.com",
-    "api.intune.microsoft.com", "portal.manage.microsoft.com",
-    "dsirnpus.microsoft.com", "dc.services.visualstudio.com",
-    "management.azure.com"
-)
+**"Windows is trying to upgrade me to Pro"**
+- Your Registry key from Phase 4 should prevent this
+- If it's happening, go back to Phase 4 and verify `DisableOSUpgrade` is set to `1`
 
-# Recreate hosts file if completely deleted
-if (-not (Test-Path $hostsPath)) {
-    New-Item -Path $hostsPath -ItemType File -Force | Out-Null
-}
+**"I see an Autopilot enrollment screen"**
+- This shouldn't happen if you followed all phases
+- Check that your hosts file is protected and read-only (Phase 6)
+- Verify that `dmwappushservice` is stopped and disabled (Phase 5)
 
-$hostsContent = Get-Content $hostsPath -Raw -ErrorAction SilentlyContinue
-$missing = @()
-
-# Check each blocking entry
-foreach ($entry in $requiredEntries) {
-    if (-not ($hostsContent -match [regex]::Escape($entry))) {
-        $missing += $entry
-    }
-}
-
-# Restore if any entries are missing
-if ($missing.Count -gt 0) {
-    try {
-        $hostsFile = Get-Item $hostsPath
-        if ($hostsFile.IsReadOnly) { 
-            $hostsFile.IsReadOnly = $false 
-        }
-
-        Add-Content -Path $hostsPath -Value "`n# Autopilot/MDM Block (Restored by Watchdog)" -Encoding ASCII
-        foreach ($entry in $missing) {
-            Add-Content -Path $hostsPath -Value "0.0.0.0 $entry" -Encoding ASCII
-        }
-        
-        $hostsFile.IsReadOnly = $true
-        Add-Content -Path $logPath -Value "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') - ALERT: Hosts modified. Restored entries: $($missing -join ', ')"
-    } catch {
-        Add-Content -Path $logPath -Value "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') - CRITICAL ERROR: $_"
-    }
-}
-```
-
-4. Save as: `C:\ProgramData\AutopilotBlock\hosts-watchdog.ps1`
-
-### Step 2: Create the Scheduled Task
-
-1. Press **Windows + R**
-2. Type `taskschd.msc` and press **Enter**
-3. In the right panel, click **Create Basic Task...**
-4. Name: `Autopilot-Hosts-Watchdog`
-5. Description: `Monitors and restores Autopilot/MDM blocking entries in the hosts file`
-6. Triggers:
-   - Repeat every **1 hour**
-   - Duration: **Indefinitely** (or 10 years minimum)
-7. Action:
-   - Program: `powershell.exe`
-   - Arguments: `-WindowStyle Hidden -NoProfile -ExecutionPolicy Bypass -File "C:\ProgramData\AutopilotBlock\hosts-watchdog.ps1"`
-8. Advanced Settings:
-   - Run with highest privilege: **Yes**
-   - Run user: **NT AUTHORITY\SYSTEM**
+!!! success "Phase 7 Complete – You're Done!"
+    Your device is now a consumer computer under your control, even though it was legally owned by a corporation. You can use work apps and be productive, but no one can remotely manage, lock, or control your device. **Congratulations – your device is free!**
 
 ---
 
-## What Happens If You Uninstall the Watchdog
+## Congratulations: You've Reached Phase 9!
 
-If you ever want to remove the watchdog:
+You've successfully completed all 8 defensive phases. Your device is now protected by:
+- **Phases 1-2:** BIOS and installation enforcements
+- **Phases 3-4:** Clean OS installation and license locking
+- **Phases 5-6:** Service and DNS-level blocking
+- **Phase 7:** Firewall application-level blocking
+- **Phase 8:** (Optional) Automatic hosts file watchdog
 
-### Via PowerShell (Admin):
-```powershell
-Unregister-ScheduledTask -TaskName "Autopilot-Hosts-Watchdog" -Confirm:$false
-Remove-Item -Path "$env:ProgramData\AutopilotBlock" -Recurse -Force
-```
-
-### Via GUI:
-1. Open **Task Scheduler** (`taskschd.msc`)
-2. Find **Autopilot-Hosts-Watchdog**
-3. Right-click and select **Delete**
-
-!!! warning "Why Keep the Watchdog?"
-    We recommend keeping the watchdog permanently. It uses negligible resources (<0.1% CPU, <5MB memory) and provides insurance against accidental hosts file restoration during Windows updates. The cost of keeping it is zero; the benefit is significant protection.
+Only now is it safe to connect to the internet.
 
 ---
 
-## Technical Details: Why This Works
+## Summary of All Defenses
 
-### Failure Scenario 1: Windows Detects "Suspicious" Hosts File
-- **Old defense:** Hosts file gets overwritten by Windows repair
-- **Watchdog response:** Detects missing entries within 60 minutes and restores them
+| Phase | Defense | Level |
+|-------|---------|-------|
+| 1 | TPM cleared, Computrace disabled | BIOS/Hardware |
+| 2 | Home edition installer forced | Installation Media |
+| 3 | Clean Windows install, offline setup | OS Installation |
+| 4 | Pro license purged, Home locked, upgrades blocked | Registry/Licensing |
+| 5 | MDM services killed, Azure AD blocked | OS Services |
+| 6 | Enrollment servers blocked | Network/Hosts File |
+| 7 | Personal account, Windows Hello, device management refused | User Account |
+| 7 | MDM executables blocked at firewall | Application/Firewall |
+| 8 | Hosts file monitored and auto-restored (optional) | Continuous Restoration |
+| 9 | Personal account, Windows Hello, internet connection | Final Safe Account Setup |
 
-### Failure Scenario 2: Antivirus Quarantines Hosts Entries
-- **Old defense:** AV removes the blocking entries thinking they're harmful
-- **Watchdog response:** Detects missing entries and restores them even from AV quarantine
-
-### Failure Scenario 3: Windows Update Modifies Hosts
-- **Old defense:** Update replaces your hosts file with default
-- **Watchdog response:** Restores your blocking entries automatically post-update
-
-### Failure Scenario 4: Multiple Restoration Attempts
-- **Old defense:** If Windows keeps trying to restore, you have to fix it manually
-- **Watchdog response:** Automatically re-restores entries every hour, 24/7, indefinitely
-
----
-
-## The Complete Defense Stack (All 9 Phases)
-
-| Phase | Defense Layer | Mechanism |
-|-------|---------------|-----------|
-| 1 | Hardware Isolation | TPM cleared, Computrace disabled |
-| 2 | Installation Enforcement | Windows 11 Home forced at install time |
-| 3 | Clean Installation | Fresh OS, offline setup, no enrollment |
-| 4 | Licensing Lock | Pro keys purged, Home edition permanent |
-| 5 | Service Isolation | MDM services disabled at OS level |
-| 6 | DNS Blocking | Enrollment domains blocked at network layer |
-| 7 | User Account Control | Personal account, policy refusal |
-| 8 | Application Blocking | MDM executables blocked at firewall |
-| 9 | Automatic Restoration | Hosts file continuously monitored and restored |
-
-**This 9-layer defense stack is enterprise-grade security.** Even a determined attacker would need to bypass all nine layers, most of which operate independently and have no single point of failure.
-
----
-
-## Performance Impact
-
-The watchdog has been designed for **zero performance impact**:
-
-- **CPU Usage:** <0.1% (runs for <100ms every hour)
-- **Memory:** <5MB resident, no memory leaks
-- **Disk I/O:** Minimal (only reads hosts file, writes only if changes detected)
-- **Network:** Zero (completely local operation)
-- **Logging:** Only logs when actual restoration occurs (not every hour)
-
-### Proof That It's Invisible
-
-You can verify the watchdog isn't slowing you down:
-
-1. Open **Task Manager** (Ctrl + Shift + Esc)
-2. Go to the **Performance** tab
-3. Watch during the scheduled time (every hour on the hour)
-4. CPU and disk activity remain flat – the watchdog is imperceptible
-
----
-
-## Recommended: Keep All 9 Phases Active
-
-We recommend **keeping all defenses from Phases 1-9 active permanently:**
-
-- **No performance penalty** – all defenses are passive or scheduled
-- **Maximum protection** – defense-in-depth means losing one layer still leaves eight
-- **Automatic operation** – Phase 9 runs invisibly; you never have to touch it
-- **Insurance policy** – the cost of maintenance is zero; the benefit is priceless
-
-Your device is now a **secure personal computer** that refuses corporate control, even in the face of aggressive Windows updates and enrollment systems.
-
-!!! success "Phase 9 Complete – Your Device is Locked Down"
-    You now have 9 independent layers of protection, including automatic restoration of critical defenses. Your device is hardened against virtually any attempt at corporate re-enrollment or forced management. Congratulations – this is enterprise-grade security on a personal device.
+**These eight core layers plus optional Phase 9 create an enterprise-grade defense stack.** Even if an attacker understands and tries to bypass one or two layers, the remaining independent layers will continue to protect your device.

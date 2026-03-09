@@ -1,201 +1,240 @@
 ---
-description: Phase 7 - Final setup and verification. Create personal Microsoft account, verify all protections are active, and troubleshoot remaining issues to ensure complete Autopilot lock removal.
-keywords: account setup, Windows Hello, verification, security checks, final configuration
+description: Phase 7 - Application-level Firewall blocking. Block MDM executables at the firewall level to prevent outbound connections from device enrollment processes, adding an additional security layer of defense-in-depth.
+keywords: firewall, application blocking, deviceenroller.exe, omadmclient.exe, dsregcmd, MDM process blocking, defense-in-depth
 ---
 
-# Phase 7: Final Connection and Safe Use
+# Phase 7: Application-Level Firewall Blocking
 
 ## Overview
 
-You've made it! Your device is now:
-- ✅ Free from BIOS-level tracking
-- ✅ Locked to Home edition
-- ✅ Enrollment services disabled
-- ✅ Enrollment servers blocked
+You've already blocked the **destinations** (domains in the hosts file). Now we'll block the **messengers** – the internal Windows executables that Autopilot and Intune use to communicate with Microsoft servers.
 
-Now it's time to:
-1. **Connect to the internet** (finally!)
-2. **Set up your personal Microsoft account**
-3. **Learn the ONE critical rule** to prevent corporate takeover
-4. **Configure Windows Hello** for security
+Think of it as two-layered defense:
 
-**Time required:** 5-10 minutes
+**Layer 1 (Previous):** Hosts file blocks the DNS names of Microsoft servers  
+**Layer 2 (Now):** Firewall blocks the Windows executables that try to reach ANY server
 
-!!! success "The Hardest Part is Done"
-    From here on, it's just normal Windows setup. Your device is hardened against corporate control and will refuse any attempts at enterprise enrollment.
+Even if Microsoft changes their server IPs, embeds new addresses directly in code, or finds a way around your hosts file, the Windows Firewall will **prevent the application itself from reaching the internet**.
+
+**Time required:** 5 minutes  
+**Status:** Device is already connected to internet (from Phase 6)
+
+!!! warning "Why Two Layers?"
+    This is **defense-in-depth** thinking. A single layer can be bypassed. Two independent layers, working at different levels (DNS + Application), are exponentially harder to circumvent. If the firewall rules are removed, the hosts file still protects you. If the hosts file is deleted, the firewall still stops outbound connections.
 
 ---
 
-## Step-by-Step Instructions
+## The Four "Double Agents" You're Blocking
 
-### Step 1: Connect to the Internet
+These are the Windows System32 executables that handle device enrollment, policy management, and Azure/Entra ID binding:
 
-Now that all your defenses are in place:
+| Executable | Purpose | What It Does |
+|------------|---------|-------------|
+| **deviceenroller.exe** | Device Enrollment Client | Attempts to enroll the device in MDM (Intune) |
+| **omadmclient.exe** | OMA DM (Open Mobile Alliance Device Management) Client | Downloads and applies MDM policies from Intune |
+| **dsregcmd.exe** | Device Registration Command Tool | Joins/leaves the device from Azure AD / Entra ID |
+| **ProvTool.exe** | Provisioning Package Tool | Installs corporate provisioning packages and policies |
 
-1. **Plug in the Ethernet cable**, OR
-2. **Re-enable WiFi:**
-   - If you use a WiFi kill switch, toggle it back on
-   - Or go to **Settings > Network > WiFi** and turn it on
-   - Or restart the WiFi router if you disabled it earlier
+By blocking these processes at the firewall, you ensure they **cannot transmit data to any external server**, regardless of the address.
 
-Your device will now connect to the internet. Windows might check for updates and show notifications – this is normal.
-
-!!! note "Updates Are Safe Now"
-    Windows will try to download updates. This is fine – your device can't be re-enrolled in Autopilot anymore. Updates will make your device more secure, not less.
-
-### Step 2: Sign In with Your Personal Microsoft Account
-
-This is when you claim the device as your own:
-
-1. Click **Start menu**
-2. Go to **Settings > Accounts > Your info**
-3. Look for **"Sign in with a Microsoft account instead"** (or similar)
-4. Click it
-5. Enter your **personal Microsoft account** (your Outlook, Hotmail, Xbox, or any Microsoft email address)
-6. If you don't have one, click **"Create a new account"** to make one
-7. Follow the setup steps
-
-!!! tip "Personal Account, Not Work Account"
-    Use your personal Microsoft account (like your Gmail-forwarded-to-Outlook, or your personal Outlook address). Do NOT use any work email address, even if you have a personal Microsoft account created with a work email. That can trigger the "Allow my organization to manage this device" dialog.
-
-### Step 3: Set Up Windows Hello Security
-
-Windows Hello (biometric or PIN login) adds an extra layer of security:
-
-1. Still in **Settings > Accounts > Your info**, find **"Sign-in options"** in the left sidebar
-2. Under Windows Hello, you'll see options for:
-   - **Face Recognition** (if your device has a camera)
-   - **Fingerprint** (if your device has a fingerprint reader)
-   - **PIN**
-
-3. Click on one (even just a PIN is good) and set it up
-4. This creates a second layer of authentication that even Windows doesn't fully control
-
-!!! success "Two Factors is Better"
-    Setting up Windows Hello PIN or biometric makes your device even more secure. You own the biometric or PIN – not Microsoft, not the corporation.
+!!! note "These Are System Files"
+    You're not deleting these files. They'll remain in `C:\Windows\System32`. But Windows Firewall will intercept any outbound connection attempts from these processes and block them silently.
 
 ---
 
-## The CRITICAL Rule: Never Allow Device Management
+## Automated Firewall Blocking Script
 
-### What to Watch For
+The easiest way to implement this is with a PowerShell script that creates the firewall rules automatically.
 
-At some point, you might see a dialog like:
+[📥 Download phase7-firewall-block.ps1](assets/downloads/phase7-firewall-block.ps1){: .md-button }
 
-**"Allow your organization to manage your device?"**
+**To use the script:**
 
-Or:
+1. Download the file above
+2. Right-click on it and select **Properties**
+3. Check the **"Unblock"** checkbox at the bottom and click **OK**
+4. Right-click on the script file and select **Run with PowerShell**
+5. Click **"Yes"** when Windows asks for Administrator permission (UAC dialog)
+6. The script will create firewall rules for all four MDM processes
 
-**"Your organization is asking to manage your device"**
+!!! tip "Script Benefits"
+    - Automatically creates all four firewall rules
+    - Checks if rules already exist (won't duplicate)
+    - Shows clear status for each process
+    - Skips any executables that don't exist on your system
+    - Provides immediate feedback on success/failure
 
-Or:
+---
 
-**"Allow IT admin to manage this device"**
+## Manual Method: Block via Windows Defender Firewall GUI
 
-!!! danger "CRITICAL - READ THIS"
-    **NEVER click "Yes" or "Agree."**
-    
-    Even if the dialog seems official or important, even if it claims your organization "requires" it, **ALWAYS:**
-    1. **UNCHECK the box** if there is one
-    2. **Click "No" or "Don't allow"**
-    3. Click **"No, sign in only to this app"** if that option appears
+If you prefer to do this manually, you can create the rules through the Windows GUI:
 
-### When Does This Happen?
+### Step 1: Open Windows Defender Firewall with Advanced Security
 
-This dialog appears when you try to sign into:
-- **Microsoft Teams** (work version)
-- **Office 365** or **Microsoft 365**
-- **Outlook** (work version)
-- **SharePoint** or **OneDrive** (corporate)
+1. Press **Windows + R**
+2. Type `wf.msc` and press **Enter**
+3. Click **Yes** when asked for Administrator permission
 
-!!! warning "You Can Still Use These Apps"
-    You CAN still use Teams, Office, Outlook, etc. with your work account. Just refuse device management, and you get the apps without the device enrollment. Your organization gets your productivity tools, but not control of your device.
+The Windows Defender Firewall advanced management window will open.
 
-### Example Scenario
+### Step 2: Create Outbound Rule for deviceenroller.exe
 
+1. In the left panel, click **Outbound Rules**
+2. In the right panel, click **New Rule...**
+3. Choose **Program** and click **Next**
+4. Select **This program path:**
+5. Click **Browse** and navigate to: `C:\Windows\System32\deviceenroller.exe`
+6. Click **Next**
+7. Choose **Block** and click **Next**
+8. Select **All** (Domain, Private, Public) and click **Next**
+9. Name it: `Block-Autopilot-Process-deviceenroller.exe`
+10. Description: `Blocks device enrollment agent communication`
+11. Click **Finish**
+
+### Step 3: Create Outbound Rule for omadmclient.exe
+
+Repeat Steps 1-2 but use the path: `C:\Windows\System32\omadmclient.exe`
+
+Name it: `Block-Autopilot-Process-omadmclient.exe`
+
+Description: `Blocks MDM policy download and management`
+
+### Step 4: Create Outbound Rule for dsregcmd.exe
+
+Repeat Steps 1-2 but use the path: `C:\Windows\System32\dsregcmd.exe`
+
+Name it: `Block-Autopilot-Process-dsregcmd.exe`
+
+Description: `Blocks Azure AD / Entra ID binding`
+
+### Step 5: Create Outbound Rule for ProvTool.exe
+
+Repeat Steps 1-2 but use the path: `C:\Windows\System32\ProvTool.exe`
+
+Name it: `Block-Autopilot-Process-ProvTool.exe`
+
+Description: `Blocks provisioning package installation`
+
+!!! success "All Four Rules Created"
+    Once all four rules are in place, your device is protected at the application level. Even if a future Windows update tries to re-enroll your device, these firewall rules will silently block it.
+
+---
+
+## How This Protects You
+
+### Scenario 1: Windows Update Includes New Enrollment Logic
+- **Old defense:** Hosts file blocks the new domain
+- **This defense:** Even if the domain isn't blocked, the firewall blocks `omadmclient.exe` before it can query DNS
+
+### Scenario 2: Malicious Corporate Network
+- **Old defense:** Hosts file works only for named domains
+- **This defense:** Even if the network redirects IP addresses, the Firewall blocks the exact process trying to connect
+
+### Scenario 3: Cached Corporate Credentials
+- **Old defense:** Registry keys prevent auto-enrollment
+- **This defense:** Even if auto-enrollment somehow triggers, `dsregcmd.exe` is blocked from reaching any server
+
+---
+
+## How to Verify the Rules Were Created
+
+### Via PowerShell (PowerShell as Administrator):
+
+```powershell
+Get-NetFirewallRule | Where-Object {$_.DisplayName -like "*Block-Autopilot*"}
 ```
-You open Microsoft Teams to chat with coworkers.
-A dialog appears: "Allow your organization to manage your device?"
 
-WRONG: Click "Yes" ❌
-RIGHT: Uncheck the box and click "No, sign in only to this app" ✅
+You should see **four rules** listed with status `True`.
 
-Result: Teams works, but your device stays yours.
+### Via Windows Firewall GUI:
+
+1. Press **Windows + R**
+2. Type `wf.msc` and press **Enter**
+3. Click **Outbound Rules** in the left panel
+4. Look for the four rules starting with `Block-Autopilot-Process-*`
+5. All four should show **Enabled** in the **Enabled** column
+
+---
+
+## Important: These Rules Don't Break Normal Functions
+
+The four executables these rules target have **very specific purposes**:
+
+- **deviceenroller.exe** – Only communicates with Intune servers (blocked)
+- **omadmclient.exe** – Only communicates with Intune servers (blocked)
+- **dsregcmd.exe** – Only communicates with Azure AD servers (blocked)
+- **ProvTool.exe** – Only applies provisioning packages downloaded by admins (not a concern)
+
+These processes are **never used for normal Windows operation**. Blocking them will not:
+- Break Windows Update
+- Break normal internet connectivity
+- Prevent you from installing software
+- Stop Windows from working properly
+- Break Microsoft Office or other applications
+
+Normal Windows processes use different executables (`svchost.exe`, `WinInet`, etc.) that remain unblocked.
+
+---
+
+## What These Rules Actually Do in the Background
+
+Every time Windows (or malicious software) tries to run one of the four blocked executables and it attempts an outbound connection:
+
+1. The Firewall sees the process attempting to connect
+2. It checks the firewall rules
+3. It finds the **Block** rule you created
+4. It silently drops the connection (no error, no prompt)
+5. The process fails silently
+
+This happens **instantly and invisibly**. The user never sees a notification, but the malicious enrollment is prevented.
+
+---
+
+## After Phase 8
+
+Your device now has **three independent layers of protection**:
+
+1. **DNS Level (Phase 6):** Hosts file blocks domain names
+2. **Service Level (Phase 5):** Disabled MDM and telemetry services
+3. **Application Level (Phase 8):** Firewall blocks the executables themselves
+
+Even if one layer fails or is bypassed:
+- The other two layers still protect you
+- It would require an attacker to bypass **all three simultaneously**
+- This is enterprise-grade defense-in-depth security
+
+!!! success "Phase 7 Complete"
+    Your device is now hardened at the application level. Corporate enrollment is not just blocked – it's physically prevented from communicating with any server. The device is "air-gapped" from the enrollment infrastructure at multiple levels, making re-enrollment virtually impossible without physically reinstalling Windows.
+
+---
+
+## Troubleshooting: If You Need to Remove These Rules
+
+If in the future you need to remove these firewall rules (unlikely, but just in case):
+
+### Via PowerShell (Admin):
+```powershell
+Remove-NetFirewallRule -DisplayName "Block-Autopilot-Process-*" -Confirm:$false
 ```
 
-!!! success "Using Work Apps Without Giving Up Your Device"
-    This is the balance: you can be productive with corporate tools, but your device remains under your control, not corporate control.
+### Via GUI:
+1. Open **Windows Defender Firewall with Advanced Security** (`wf.msc`)
+2. Click **Outbound Rules**
+3. Right-click on each `Block-Autopilot-Process-*` rule
+4. Select **Delete**
+
+But remember: These rules protect you from involuntary corporate re-enrollment. Keep them in place for as long as you own the device.
 
 ---
 
-## Your Device is Now Ready
+## Next: Phase 8 (Optional) - Automatic Hosts File Protection
 
-After completing the setup:
+You've now implemented application-level firewall blocking. If you want to add one final layer of **automatic protection** that restores your hosts file if Windows ever modifies it during updates, proceed to:
 
-- ✅ All corporate tracking is disabled
-- ✅ All corporate enrollment is blocked
-- ✅ Your personal account is in control
-- ✅ Windows Hello adds extra security
-- ✅ You can use work apps without giving up device control
+[Phase 8 - Hosts File Watchdog (Optional but Recommended)](phase8.md)
 
----
+Phase 8 installs a scheduled task that automatically monitors your hosts file and restores any blocking entries that Windows removes during updates. It's the final insurance policy for complete protection.
 
-## Long-Term Security Tips
-
-### Keep These Practices
-
-1. **Regularly update Windows** – this keeps your device secure against new exploits
-2. **Use your Windows Hello PIN/biometric** – always sign in securely
-3. **Keep backups** – if something goes wrong, you can restore
-4. **Monitor device management** – go to **Settings > Accounts** and verify no organization is managing your device
-5. **Never accept "device management" requests** – the one critical rule
-
-### What If?
-
-**"I accidentally clicked Yes to device management"**
-- Go to **Settings > Accounts > Access work or school**
-- If your work account is listed, click on it and select **Disconnect**
-- Your device is free again
-
-**"Windows is trying to upgrade me to Pro"**
-- Your Registry key from Phase 4 should prevent this
-- If it's happening, go back to Phase 4 and verify `DisableOSUpgrade` is set to `1`
-
-**"I see an Autopilot enrollment screen"**
-- This shouldn't happen if you followed all phases
-- Check that your hosts file is protected and read-only (Phase 6)
-- Verify that `dmwappushservice` is stopped and disabled (Phase 5)
-
-!!! success "Phase 7 Complete – You're Done!"
-    Your device is now a consumer computer under your control, even though it was legally owned by a corporation. You can use work apps and be productive, but no one can remotely manage, lock, or control your device. **Congratulations – your device is free!**
-
----
-
-## Optional: Phase 8 - Application-Level Firewall Blocking
-
-The defenses above are solid. However, the following phases are **optional but highly recommended** if you want **defense-in-depth** with additional layers of protection at the application/firewall level:
-
-[Phase 8 - Application-Level Firewall Blocking](phase8.md)
-
-Phase 8 creates firewall rules that block the four core MDM executables (`deviceenroller.exe`, `omadmclient.exe`, `dsregcmd.exe`, `ProvTool.exe`) from making **any** outbound connection. This is extra insurance – even if a future Windows update or security patch somehow bypasses your other defenses, these firewall rules will block the enrollment processes at the application level.
-
-!!! note "Phase 8 and Beyond are Optional"
-    Your device is protected by Phase 7. Phases 8 and 9 are optional but highly recommended for those who want enterprise-grade, defense-in-depth protection with multiple independent security layers. If you're satisfied with Phase 7, you can stop here, but we strongly encourage you to continue for maximum protection.
-
----
-
-## Summary of All Defenses
-
-| Phase | Defense | Level |
-|-------|---------|-------|
-| 1 | TPM cleared, Computrace disabled | BIOS/Hardware |
-| 2 | Home edition installer forced | Installation Media |
-| 3 | Clean Windows install, offline setup | OS Installation |
-| 4 | Pro license purged, Home locked, upgrades blocked | Registry/Licensing |
-| 5 | MDM services killed, Azure AD blocked | OS Services |
-| 6 | Enrollment servers blocked | Network/Hosts File |
-| 7 | Personal account, Windows Hello, device management refused | User Account |
-| 8 | MDM executables blocked at firewall | Application/Firewall |
-| 9 | Hosts file monitored and auto-restored (optional) | Continuous Restoration |
-
-**These eight core layers plus optional Phase 9 create an enterprise-grade defense stack.** Even if an attacker understands and tries to bypass one or two layers, the remaining independent layers will continue to protect your device.
+!!! note "Phase 8 is Optional"
+    Your device is already fully hardened by Phase 7. Phase 8 is extra insurance. Most users will find Phase 7 sufficient, but we recommend Phase 8 if you want to literally never think about hosts file restoration again.

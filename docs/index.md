@@ -34,7 +34,7 @@ If you've purchased a used corporate laptop or inherited a company device, these
 
 ## How This Guide Works
 
-The process is divided into **nine phases**, each building on the previous one. The first 8 phases are comprehensive and sufficient. Phase 9 is optional but recommended, adding automatic watchdog protection. Start with Phase 1 and proceed in order.
+The process is divided into **nine phases**, each building on the previous one. The first 7 phases are mandatory and comprehensive. Phases 8-9 add optional defense-in-depth layers. Start with Phase 1 and proceed in order. **Internet connection is restored only in Phase 9**, after all 8 protective layers are active.
 
 ### Quick Overview
 
@@ -46,14 +46,14 @@ The process is divided into **nine phases**, each building on the previous one. 
 | **4** | [Key Purging](phase4.md) – Lock in Home edition | 5 min | ✅ Yes |
 | **5** | [Telemetry & MDM Kill](phase5.md) – Disable tracking services | 5 min | ✅ Yes |
 | **6** | [Hosts File Block](phase6.md) – Block Microsoft domains | 5 min | ✅ Yes |
-| **7** | [Final Setup](phase7.md) – Secure your personal account | 5 min | ✅ Yes |
-| **8** | [Firewall Blocking](phase8.md) – Block MDM processes | 5 min | ✅ Yes |
-| **9** | [Hosts Watchdog](phase9.md) – Auto-restore hosts file | 5 min | ⭕ Optional |
+| **7** | [Firewall Blocking](phase7.md) – Block MDM processes at firewall | 5 min | ✅ Yes |
+| **8** | [Hosts Watchdog](phase8.md) – Auto-restore hosts file | 5 min | ⭕ Optional |
+| **9** | [Final Connection to Internet](phase9.md) – Safe account setup after all defenses active | 5–10 min | ✅ Yes |
 
 **Total time: ~1–2 hours** (including 30 min for Windows installation)
 
-!!! note "Phase 9 is Optional"
-    Phases 1-8 provide complete protection. Phase 9 adds automatic hosts file restoration if Windows updates attempt to modify it. Highly recommended for long-term device ownership, but not strictly required.
+!!! warning "Critical: Internet Until Phase 9"
+    All phases 1-8 must be completed **while disconnected from the internet** or via your bootable USB. Only after all 8 protective layers are active is it safe to connect the network cable and proceed to Phase 9. This is not optional – it is the core principle of this guide's security model.
 
 ## Navigate to Each Phase
 
@@ -63,9 +63,9 @@ The process is divided into **nine phases**, each building on the previous one. 
 4. [Phase 4 - Key Purging and Version Lock](phase4.md)
 5. [Phase 5 - Telemetry and MDM Module Deactivation](phase5.md)
 6. [Phase 6 - Server Blocking in the Hosts File](phase6.md)
-7. [Phase 7 - Final Connection and Safe Use](phase7.md)
-8. [Phase 8 - Application-Level Firewall Blocking](phase8.md)
-9. [Phase 9 - Hosts File Watchdog (Optional)](phase9.md)
+7. [Phase 7 - Application-Level Firewall Blocking](phase7.md)
+8. [Phase 8 - Hosts File Watchdog (Optional)](phase8.md)
+9. [Phase 9 - Final Connection to Internet and Safe Account Setup](phase9.md)
 
 !!! tip "Pro Tip"
     Take screenshots of each major step. If something goes wrong, these help you troubleshoot or remember where you left off.
