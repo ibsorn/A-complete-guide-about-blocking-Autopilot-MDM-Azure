@@ -26,6 +26,32 @@ Now it's time to:
 
 ---
 
+## Pre-Flight Check (Optional but Recommended)
+
+Before connecting to the internet, you can optionally verify that all your defenses are properly in place. A verification script is available that checks:
+
+- ✅ Hosts file blocking entries are present
+- ✅ Registry policies are correctly set (`DisableOSUpgrade`)
+- ✅ Firewall rules are active
+- ✅ MDM services are disabled
+
+[📥 Download phase9-verify-protection.ps1](assets/downloads/phase9-verify-protection.ps1){: .md-button }
+
+**To run the verification:**
+
+1. Download the script above
+2. Right-click on it and select **Properties**
+3. Check the **"Unblock"** checkbox at the bottom and click **OK**
+4. Right-click on the script file and select **Run with PowerShell**
+5. Click **"Yes"** when Windows asks for Administrator permission
+
+The script will display a report showing which defenses are active and which (if any) need attention. If all checks pass, you're ready to connect safely.
+
+!!! note "Verification is Optional"
+    If you're confident in your setup, you can skip this step and proceed directly to connecting to the internet. This script is just extra insurance.
+
+---
+
 ## Step-by-Step Instructions
 
 ### Step 1: Connect to the Internet (NOW Safe)

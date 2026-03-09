@@ -46,11 +46,14 @@ In this phase, you'll:
 
 ## Automated Alternative: Use a PowerShell Script
 
-If you prefer to **automate all of Phase 4**, you can use a PowerShell script that will execute all the recomended commands:
+If you prefer to **automate all of Phase 4**, you can use a PowerShell script that will execute all the recommended commands:
+
+!!! warning "Home Edition Only"
+    This script is designed for **Windows 11 Home edition only**. If you installed Pro edition, follow the manual steps below instead or modify the script, as you'll need to use the Pro license key instead of the Home key.
 
 [📥 Download phase4-lock-home-edition.ps1](assets/downloads/phase4-lock-home-edition.ps1){: .md-button }
 
-**To use the script:**
+**To use the script (Home Edition users):**
 
 1. Download the file above
 2. Right-click on it and select **Properties**
@@ -66,7 +69,7 @@ If you prefer to **automate all of Phase 4**, you can use a PowerShell script th
     - **Handles registry creation** – Automatically creates registry paths if they don't exist
     - **Faster than manual** – All four steps run automatically
 
-If you prefer to do it manually, follow the instructions below.
+If you prefer to do it manually, or if you installed Pro edition, follow the instructions below.
 
 ---
 
