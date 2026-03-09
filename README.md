@@ -4,6 +4,16 @@ So you've got a Windows laptop that *technically* belongs to you, but Microsoft 
 
 This guide walks you through **exactly how to remove them**—no BS, no "you need a new device," just proven technical steps that actually work.
 
+## ⚡ Quick Start: Master Script (Phases 4–9 Automated)
+
+If you want to skip all the manual steps after Phase 3, use the **Master Script** to automate everything:
+
+[📥 Download breaking-free-complete.ps1](https://github.com/ibsorn/breaking-free-from-autopilot/raw/main/docs/assets/downloads/breaking-free-complete.ps1)
+
+Just right-click > **Run as Administrator**. It handles phases 4–9 automatically (~10-15 minutes).
+
+---
+
 ## Read the Full Guide
 
 Everything you need is documented online at:

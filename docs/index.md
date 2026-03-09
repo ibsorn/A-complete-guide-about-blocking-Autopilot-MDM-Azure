@@ -25,6 +25,15 @@ If you've purchased a used corporate laptop or inherited a company device, these
 
 **This guide solves all of these problems** by providing proven technical procedures to completely remove all layers of corporate control.
 
+!!! warning "⚡ Quick Alternative: Master Script"
+    After completing **Phases 1–3** (BIOS, edition selection, and clean installation), you can use the **Master Script** to automate the remaining **Phases 4–9** (early testing stage, may fail):
+    
+    [📥 Download breaking-free-complete.ps1](assets/downloads/breaking-free-complete.ps1){: .md-button }
+    
+    **One click to automate:** Edition locking, MDM disabling, hosts blocking, firewall rules, watchdog setup, and pre-flight verification. Takes ~10-15 minutes. No manual steps needed.
+    
+    Prefer step-by-step control? Follow the individual phases below.
+
 !!! warning "Important Prerequisites"
     - You will need administrator access or the ability to enter BIOS
     - A bootable Windows 11 USB drive
