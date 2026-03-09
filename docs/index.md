@@ -28,7 +28,7 @@ If you've purchased a used corporate laptop or inherited a company device, these
 !!! warning "⚡ Quick Alternative: Master Script"
     After completing **Phases 1–3** (BIOS, edition selection, and clean installation), you can use the **Master Script** to automate the remaining **Phases 4–9** (early testing stage, may fail):
     
-    [📥 Download breaking-free-complete.ps1](assets/downloads/breaking-free-complete.ps1){: .md-button }
+    [📥 Download breaking-free-complete.ps1](https://github.com/ibsorn/Breaking-Free-from-Autopilot/releases/download/v0.1.0-alpha/breaking-free-complete.ps1){: .md-button }
     
     **One click to automate:** Edition locking, MDM disabling, hosts blocking, firewall rules, watchdog setup, and pre-flight verification. Takes ~10-15 minutes. No manual steps needed.
     
