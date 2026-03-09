@@ -103,7 +103,9 @@ sc config DiagTrack start= disabled
 
 ## Step 3: Block Mobile Device Enrollment via Registry
 
-Even with services disabled, Windows can still enroll in MDM through the registry. Let's block that:
+Even with services disabled, Windows can still enroll in MDM through the registry. Let's block that with **two protection layers**:
+
+### Block 1: Disable Direct/Manual MDM Registration
 
 Type this command exactly (it's all one line):
 
@@ -113,6 +115,23 @@ reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\MDM" /v Disable
 
 !!! success "Registry Updated"
     You'll see a message like `The operation completed successfully.` This registry key tells Windows: "Block any attempt to enroll in MDM."
+
+### Block 2: Disable Automatic Silent MDM Auto-Enrollment
+
+Now type this second command (also one line):
+
+```powershell
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\CurrentVersion\MDM" /v AutoEnrollMDM /t REG_DWORD /d 0 /f
+```
+
+!!! warning "Two Blocks Are Necessary"
+    - **DisableRegistration** blocks manual/direct enrollment attempts
+    - **AutoEnrollMDM = 0** blocks silent automatic enrollment that happens in the background using cached corporate credentials
+    
+    Even if a user accidentally signs in with corporate credentials (like from a cached session), Windows won't be able to auto-enroll the device in MDM.
+
+!!! tip "Check the Result"
+    Both commands should return: `The operation completed successfully.`
 
 ---
 
@@ -154,7 +173,8 @@ If they say "Running," you didn't disable them correctly. Try again.
 |------------------|---------|-------------|
 | **dmwappushservice** | Mobile Device Management enrollment service | Stopped and disabled |
 | **DiagTrack** | Windows diagnostic tracking and telemetry | Stopped and disabled |
-| **MDM Registry Key** | Blocks MDM registration attempts | Disabled |
+| **DisableRegistration** | Blocks direct/manual MDM enrollment attempts | Set to 1 (disabled) |
+| **AutoEnrollMDM** | Blocks silent automatic MDM enrollment with cached credentials | Set to 0 (disabled) |
 | **WorkplaceJoin Registry Key** | Blocks Azure AD automatic enrollment | Disabled |
 
 ---

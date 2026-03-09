@@ -14,6 +14,32 @@ Write-Host "Phase 5: Disabling MDM and Telemetry Services" -ForegroundColor Cyan
 Write-Host "================================================" -ForegroundColor Cyan
 Write-Host ""
 
+# Pre-check: Verify device is not domain/Azure joined
+Write-Host "[Pre-Check] Verifying device enrollment status..." -ForegroundColor Yellow
+try {
+    $dsregStatus = & dsregcmd /status
+    $dsregOutput = $dsregStatus | Out-String
+    
+    if ($dsregOutput -match "AzureAdJoined\s*:\s*YES|DomainJoined\s*:\s*YES|WorkplaceJoined\s*:\s*YES") {
+        Write-Host ""
+        Write-Host "⚠  WARNING: Device is currently joined to enterprise (Azure/Domain/MDM)" -ForegroundColor Red
+        Write-Host ""
+        Write-Host "Attempting to remove enrollment with: dsregcmd /leave" -ForegroundColor Yellow
+        & dsregcmd /leave
+        Write-Host ""
+        Write-Host "✓ Device removed from enterprise enrollment" -ForegroundColor Green
+        Write-Host "⚠  A restart is recommended to complete the removal" -ForegroundColor Yellow
+        Write-Host ""
+        pause
+    } else {
+        Write-Host "✓ Device is not domain/Azure/workplace joined - proceeding" -ForegroundColor Green
+    }
+} catch {
+    Write-Host "⚠ Could not verify enrollment status: $_" -ForegroundColor Orange
+}
+
+Write-Host ""
+
 # Step 1: Disable dmwappushservice (MDM Enrollment Service)
 Write-Host "[1/4] Stopping and disabling dmwappushservice..." -ForegroundColor Yellow
 try {
@@ -45,8 +71,14 @@ try {
     if (-not (Test-Path $MDMPath)) {
         New-Item -Path $MDMPath -Force | Out-Null
     }
+    
+    # Bloqueo 1: Evita el registro directo/manual
     New-ItemProperty -Path $MDMPath -Name "DisableRegistration" -Value 1 -PropertyType DWORD -Force | Out-Null
-    Write-Host "✓ MDM registration blocked" -ForegroundColor Green
+    
+    # Bloqueo 2 (NUEVO): Evita el auto-enrolamiento silencioso con credenciales (AutoEnrollMDM)
+    New-ItemProperty -Path $MDMPath -Name "AutoEnrollMDM" -Value 0 -PropertyType DWORD -Force | Out-Null
+    
+    Write-Host "✓ MDM registration and Auto-Enrollment blocked" -ForegroundColor Green
 } catch {
     Write-Host "⚠ Could not block MDM registration: $_" -ForegroundColor Orange
 }

@@ -35,7 +35,7 @@ Write-Host "[2/4] Checking hosts file..." -ForegroundColor Yellow
 $hostsContent = Get-Content $hostsPath -Raw
 
 if ($hostsContent -match "ztd.desktop.microsoft.com") {
-    Write-Host "✓ Autopilot servers already blocked" -ForegroundColor Green
+    Write-Host "✓ Autopilot and enrollment servers already blocked" -ForegroundColor Green
 } else {
     # Step 3: Add blocking entries
     Write-Host "[3/4] Adding blocking entries to hosts file..." -ForegroundColor Yellow
@@ -44,6 +44,13 @@ if ($hostsContent -match "ztd.desktop.microsoft.com") {
 `n# Autopilot and Enrollment Servers (Phase 6)
 0.0.0.0 ztd.desktop.microsoft.com
 0.0.0.0 cs.dds.microsoft.com
+0.0.0.0 enterpriseregistration.windows.net
+0.0.0.0 enrollment.manage.microsoft.com
+0.0.0.0 api.intune.microsoft.com
+0.0.0.0 portal.manage.microsoft.com
+0.0.0.0 dsirnpus.microsoft.com
+0.0.0.0 dc.services.visualstudio.com
+0.0.0.0 management.azure.com
 "@
         Add-Content -Path $hostsPath -Value $newEntries -Encoding ASCII
         Write-Host "✓ Blocking entries added" -ForegroundColor Green
@@ -85,13 +92,13 @@ try {
 Write-Host ""
 Write-Host "================================================" -ForegroundColor Cyan
 Write-Host "Phase 6 Complete!" -ForegroundColor Cyan
-Write-Host "Autopilot servers are now blocked." -ForegroundColor Green
+Write-Host "Autopilot and enrollment servers are now blocked." -ForegroundColor Green
 Write-Host "================================================" -ForegroundColor Cyan
 Write-Host ""
 
 # Optional: Verify the entries
 Write-Host "Verification - Current hosts entries:" -ForegroundColor Yellow
-Select-String -Path $hostsPath -Pattern "ztd.desktop.microsoft.com|cs.dds.microsoft.com" | ForEach-Object { Write-Host $_.Line -ForegroundColor Green }
+Select-String -Path $hostsPath -Pattern "ztd.desktop.microsoft.com|cs.dds.microsoft.com|enterpriseregistration.windows.net|enrollment.manage.microsoft.com|api.intune.microsoft.com|portal.manage.microsoft.com|dsirnpus.microsoft.com|dc.services.visualstudio.com|management.azure.com" | ForEach-Object { Write-Host $_.Line -ForegroundColor Green }
 
 Write-Host ""
 Write-Host "Press any key to exit..."

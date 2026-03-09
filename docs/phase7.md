@@ -171,6 +171,19 @@ After completing the setup:
 
 ---
 
+## Optional: Phase 8 - Application-Level Firewall Blocking
+
+The defenses above are solid. However, the following phases are **optional but highly recommended** if you want **defense-in-depth** with additional layers of protection at the application/firewall level:
+
+[Phase 8 - Application-Level Firewall Blocking](phase8.md)
+
+Phase 8 creates firewall rules that block the four core MDM executables (`deviceenroller.exe`, `omadmclient.exe`, `dsregcmd.exe`, `ProvTool.exe`) from making **any** outbound connection. This is extra insurance – even if a future Windows update or security patch somehow bypasses your other defenses, these firewall rules will block the enrollment processes at the application level.
+
+!!! note "Phase 8 and Beyond are Optional"
+    Your device is protected by Phase 7. Phases 8 and 9 are optional but highly recommended for those who want enterprise-grade, defense-in-depth protection with multiple independent security layers. If you're satisfied with Phase 7, you can stop here, but we strongly encourage you to continue for maximum protection.
+
+---
+
 ## Summary of All Defenses
 
 | Phase | Defense | Level |
@@ -182,5 +195,7 @@ After completing the setup:
 | 5 | MDM services killed, Azure AD blocked | OS Services |
 | 6 | Enrollment servers blocked | Network/Hosts File |
 | 7 | Personal account, Windows Hello, device management refused | User Account |
+| 8 | MDM executables blocked at firewall | Application/Firewall |
+| 9 | Hosts file monitored and auto-restored (optional) | Continuous Restoration |
 
-**These seven layers of defense make re-enrollment virtually impossible.**
+**These eight core layers plus optional Phase 9 create an enterprise-grade defense stack.** Even if an attacker understands and tries to bypass one or two layers, the remaining independent layers will continue to protect your device.

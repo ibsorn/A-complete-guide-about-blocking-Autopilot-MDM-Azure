@@ -84,11 +84,18 @@ The hosts file will now be open in Notepad. It's a plain text file with some def
 
 1. Click at the **very end of the file** (after the last line)
 2. Press **Enter** twice to create a blank line
-3. **Type exactly** these two lines:
+3. **Type exactly** these lines (one per line):
 
 ```
 0.0.0.0 ztd.desktop.microsoft.com
 0.0.0.0 cs.dds.microsoft.com
+0.0.0.0 enterpriseregistration.windows.net
+0.0.0.0 enrollment.manage.microsoft.com
+0.0.0.0 api.intune.microsoft.com
+0.0.0.0 portal.manage.microsoft.com
+0.0.0.0 dsirnpus.microsoft.com
+0.0.0.0 dc.services.visualstudio.com
+0.0.0.0 management.azure.com
 ```
 
 !!! warning "Format Matters"
@@ -97,9 +104,16 @@ The hosts file will now be open in Notepad. It's a plain text file with some def
     - Do NOT add extra lines or trailing spaces
     - The domain names must be exactly as shown (lowercase is typical, but Windows doesn't care about case here)
 
-These two domains are used by:
+**What each domain does:**
 - **ztd.desktop.microsoft.com** – Zero Touch Deployment (Autopilot) server
 - **cs.dds.microsoft.com** – Device Enrollment Service
+- **enterpriseregistration.windows.net** – Enterprise device registration
+- **enrollment.manage.microsoft.com** – Intune enrollment service
+- **api.intune.microsoft.com** – Intune API (mobile device management)
+- **portal.manage.microsoft.com** – Intune admin portal (device operations)
+- **dsirnpus.microsoft.com** – Device state and policy reporting
+- **dc.services.visualstudio.com** – Diagnostic/telemetry collection
+- **management.azure.com** – Azure management API
 
 ### Step 4: Save the File
 
