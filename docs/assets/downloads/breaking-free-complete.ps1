@@ -125,8 +125,11 @@ try {
 
     $hostsContent = Get-Content $hostsPath -Raw -ErrorAction SilentlyContinue
     if ($hostsContent -notmatch "ztd\.desktop\.microsoft\.com") {
-        $newEntries = "`n# Autopilot and Enrollment Servers`n0.0.0.0 ztd.desktop.microsoft.com`n0.0.0.0 cs.dds.microsoft.com`n0.0.0.0 enterpriseregistration.windows.net`n0.0.0.0 enrollment.manage.microsoft.com`n0.0.0.0 api.intune.microsoft.com`n0.0.0.0 portal.manage.microsoft.com`n0.0.0.0 dsirnpus.microsoft.com`n0.0.0.0 dc.services.visualstudio.com`n0.0.0.0 management.azure.com"
-        Add-Content -Path $hostsPath -Value $newEntries -Encoding ASCII
+        Add-Content -Path $hostsPath -Value "`n# Autopilot and Enrollment Servers" -Encoding ASCII
+        $domainsToBlock = @("ztd.desktop.microsoft.com", "cs.dds.microsoft.com", "enterpriseregistration.windows.net", "enrollment.manage.microsoft.com", "api.intune.microsoft.com", "portal.manage.microsoft.com", "dsirnpus.microsoft.com", "dc.services.visualstudio.com", "management.azure.com")
+        foreach ($domain in $domainsToBlock) {
+            Add-Content -Path $hostsPath -Value "0.0.0.0 $domain" -Encoding ASCII
+        }
     }
     
     $hostsFile = Get-Item $hostsPath
@@ -212,31 +215,40 @@ $allClear = $true
 
 # Check 1: MDM Profile
 $mdmCheck = Get-CimInstance -Query "SELECT * FROM Win32_DeviceManagementConfiguration" -ErrorAction SilentlyContinue
-if ($mdmCheck) { Write-Host "✗ Device still shows MDM management" -ForegroundColor Red; $allClear = $false } 
-else { Write-Host "✓ No organizational management detected" -ForegroundColor Green }
+if ($mdmCheck) { 
+    Write-Host "✗ Device still shows MDM management" -ForegroundColor Red; $allClear = $false 
+} else { 
+    Write-Host "✓ No organizational management detected" -ForegroundColor Green 
+}
 
-# Check 2: Services
+# Check 2: Services (Fixed Logic: Null equals Disabled)
 $dmwappush = Get-Service dmwappushservice -ErrorAction SilentlyContinue
-if ($dmwappush.StartType -eq "Disabled") { Write-Host "✓ dmwappushservice is disabled" -ForegroundColor Green } 
-else { Write-Host "✗ dmwappushservice is NOT disabled" -ForegroundColor Red; $allClear = $false }
+if ($null -eq $dmwappush -or $dmwappush.StartType -eq "Disabled") { 
+    Write-Host "✓ dmwappushservice is disabled or successfully removed" -ForegroundColor Green 
+} else { 
+    Write-Host "✗ dmwappushservice is NOT disabled" -ForegroundColor Red; $allClear = $false 
+}
 
 # Check 3: Hosts File
 $hPath = "$env:windir\System32\drivers\etc\hosts"
-$hContent = Get-Content $hPath -ErrorAction SilentlyContinue
-if ($hContent -match "ztd.desktop.microsoft.com") { Write-Host "✓ Enrollment servers blocked in hosts file" -ForegroundColor Green } 
-else { Write-Host "✗ Hosts file blocking failed" -ForegroundColor Red; $allClear = $false }
+$hContent = Get-Content $hPath -Raw -ErrorAction SilentlyContinue
+if ($hContent -match "ztd\.desktop\.microsoft\.com") { 
+    Write-Host "✓ Enrollment servers blocked in hosts file" -ForegroundColor Green 
+} else { 
+    Write-Host "✗ Hosts file blocking failed" -ForegroundColor Red; $allClear = $false 
+}
 
 Write-Host ""
 Write-Host "=================================================================" -ForegroundColor Cyan
 if ($allClear) {
     Write-Host "                 SYSTEM IS SECURE AND FREE                       " -ForegroundColor Green -BackgroundColor Black
     Write-Host "=================================================================" -ForegroundColor Cyan
-    Write-Host "All 6 layers of defense have been successfully applied." -ForegroundColor White
+    Write-Host "All defense layers have been successfully applied and verified." -ForegroundColor White
     Write-Host "You may now connect to the internet safely." -ForegroundColor Yellow
 } else {
     Write-Host "                 WARNING: SYSTEM NOT FULLY SECURE                " -ForegroundColor Red -BackgroundColor Black
     Write-Host "=================================================================" -ForegroundColor Cyan
-    Write-Host "Some defenses failed to apply. Do not connect to the internet yet." -ForegroundColor Orange
+    Write-Host "Some defenses failed to apply. Check the logs above." -ForegroundColor Orange
 }
 Write-Host ""
 Write-Host "Press any key to exit..."

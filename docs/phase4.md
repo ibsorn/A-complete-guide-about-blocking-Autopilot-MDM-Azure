@@ -5,22 +5,22 @@ keywords: license key, Home edition, registry policy, preinstalled retail key, u
 
 # Phase 4: Key Purging and Version Lock
 
-!!! warning "⚡ MASTER SCRIPT ALTERNATIVE - Automate Everything Phases 4–9" (may fail)
-    If you prefer **complete automation**, there's a master script that executes all phases 4–9 automatically in one go:
+!!! info "⚡ MASTER SCRIPT AVAILABLE - Automate Phases 4–9"
+    If you prefer **complete automation** instead of manual steps, use the **Master Script** that handles everything from Phase 4 through Phase 9:
     
-    [📥 Download breaking-free-complete.ps1 (Master Script)](assets/downloads/breaking-free-complete.ps1){: .md-button }
+    [📥 Download breaking-free-complete.ps1](assets/downloads/breaking-free-complete.ps1){: .md-button }
     
-    **This script handles:**
+    **What it automates:**
     - ✅ Phase 4: Edition locking & license purging
-    - ✅ Phase 5: MDM & telemetry deactivation
+    - ✅ Phase 5: MDM & telemetry services disabling
     - ✅ Phase 6: Hosts file DNS blocking
     - ✅ Phase 7: Firewall application blocking
-    - ✅ Phase 8: Watchdog scheduled task setup
+    - ✅ Phase 8: Watchdog scheduled task installation
     - ✅ Phase 9: Pre-flight verification
     
-    **To use:** Right-click > Run as Administrator. No manual steps required. Estimated time: 15 seconds.
+    **How to use:** Right-click the script > **Run as Administrator**. Takes ~10-15 minutes. Zero manual steps.
     
-    **Not comfortable with automation/script gives you any errors?** Follow the manual steps below for individual control over each phase.
+    **Prefer step-by-step control?** Scroll down to use individual phase scripts or follow manual instructions below.
 
 ---
 
